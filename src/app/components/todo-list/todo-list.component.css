@@ -1,0 +1,22 @@
+.task-list-section {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.task-list {
+}
+
+.task-list-item {
+  font-size: 14px;
+  margin: 8px 0;
+  padding: 8px;
+  list-style-type: none;
+  border-bottom: 1px solid black;
+}
+
+.task-due-date {
+  margin-top: 4px;
+  font-size: 12px;
+}

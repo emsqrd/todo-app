@@ -1,0 +1,15 @@
+<section class="task-list-section">
+  <h2>Today</h2>
+  <div>
+    <ul class="task-list">
+      @for(task of tasks; track task.id) {
+      <li class="task-list-item">
+        <div class="task-title">
+          {{ task.title }}
+        </div>
+        <div class="task-due-date">{{ task.dueDate }}</div>
+      </li>
+      }
+    </ul>
+  </div>
+</section>
