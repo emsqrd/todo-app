@@ -1,8 +1,13 @@
 .task-list-section {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 5rem auto;
   display: flex;
   flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .task-list {
@@ -10,13 +15,13 @@
 
 .task-list-item {
   font-size: 14px;
-  margin: 8px 0;
-  padding: 8px;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
   list-style-type: none;
   border-bottom: 1px solid black;
 }
 
 .task-due-date {
-  margin-top: 4px;
+  margin-top: 0.25rem;
   font-size: 12px;
 }
