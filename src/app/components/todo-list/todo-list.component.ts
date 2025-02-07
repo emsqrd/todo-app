@@ -1,5 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
+interface Task {
+  id: number;
+  title: string;
+  dueDate: string;
+}
 @Component({
   selector: 'app-todo-list',
   standalone: true,
@@ -19,23 +24,7 @@ export class TodoListComponent {
     });
   }
 
-  tasks = [
-    {
-      id: Math.random(),
-      title: 'Take out the garbage',
-      dueDate: this.formatDate(new Date('02/03/25')),
-    },
-    {
-      id: Math.random(),
-      title: 'Feed the cats',
-      dueDate: this.formatDate(new Date('02/05/25')),
-    },
-    {
-      id: Math.random(),
-      title: 'Walk the dog',
-      dueDate: this.formatDate(new Date('02/04/25')),
-    },
-  ];
+  tasks: Task[] = [];
 
   onAddTaskClick() {
     this.addTaskDialog.nativeElement.showModal();

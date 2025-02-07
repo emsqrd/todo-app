@@ -3,11 +3,51 @@
   margin: 5rem auto;
   display: flex;
   flex-direction: column;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+}
+
+header button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  background-color: #3b82f6;
+  color: white;
+}
+
+header button:hover {
+  background-color: #2563eb;
+}
+
+.task-list-empty {
+  text-align: center;
+  color: #6b7280;
+  font-size: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  background-color: #f9fafb;
+  border: 2px dashed #e5e7eb;
+  border-radius: 8px;
 }
 
 .task-list-item {
@@ -15,11 +55,25 @@ header {
   padding: 0.5rem;
   list-style-type: none;
   border-bottom: 1px solid black;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.task-list-item:hover {
+  background-color: #f8fafc;
+  transform: translateX(4px);
 }
 
 .task-title {
   font-size: 14px;
   padding-left: 8px;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked + .task-title {
+  text-decoration: line-through;
+  color: #9ca3af;
 }
 
 .task-list-item-content-wrapper {
@@ -32,6 +86,11 @@ header {
 .task-checkbox-title-wrapper {
   display: flex;
   align-items: center;
+}
+
+.task-checkbox-title-wrapper input[type="checkbox"] {
+  accent-color: #3b82f6;
+  cursor: pointer;
 }
 
 .task-list-item-sub-content-wrapper {
@@ -60,6 +119,7 @@ header {
 .task-due-date {
   margin-top: 0.25rem;
   font-size: 12px;
+  color: #6b7280;
 }
 
 input[type="checkbox"] {
