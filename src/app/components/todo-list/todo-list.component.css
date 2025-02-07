@@ -10,15 +10,20 @@ header {
   justify-content: space-between;
 }
 
-.task-list {
-}
-
 .task-list-item {
-  font-size: 14px;
   margin: 0.5rem 0;
   padding: 0.5rem;
   list-style-type: none;
   border-bottom: 1px solid black;
+}
+
+.task-title {
+  font-size: 14px;
+  padding-left: 8px;
+}
+
+.task-list-item-content-wrapper {
+  display: flex;
 }
 
 .task-due-date {

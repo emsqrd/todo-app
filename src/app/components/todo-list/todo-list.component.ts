@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-todo-list',
@@ -8,6 +8,10 @@ import { Component } from '@angular/core';
   styleUrl: './todo-list.component.css',
 })
 export class TodoListComponent {
+  @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('taskTitleInput') taskTitleInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('taskDateInput') taskDateInput!: ElementRef<HTMLInputElement>;
+
   private formatDate(date: Date): string {
     return date.toLocaleDateString('en-US', {
       month: 'short',
@@ -32,4 +36,23 @@ export class TodoListComponent {
       dueDate: this.formatDate(new Date('02/04/25')),
     },
   ];
+
+  onAddTaskClick() {
+    this.addTaskDialog.nativeElement.showModal();
+  }
+
+  onCancelDialogClick() {
+    this.addTaskDialog.nativeElement.close();
+  }
+
+  onSaveTaskClick(title: string, date: string) {
+    const newTask = {
+      id: Math.random(),
+      title: title,
+      dueDate: this.formatDate(new Date(date)),
+    };
+
+    this.tasks.push(newTask);
+    this.onCancelDialogClick();
+  }
 }
