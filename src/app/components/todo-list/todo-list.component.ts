@@ -59,8 +59,4 @@ export class TodoListComponent {
 
     this.onCancelDialogClick();
   }
-
-  ngAfterViewInit() {
-    this.addTaskDialog.nativeElement.showModal();
-  }
 }

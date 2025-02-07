@@ -24,11 +24,24 @@ header {
 
 .task-list-item-content-wrapper {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.task-list-item-sub-content-wrapper {
+  margin-left: 32px;
 }
 
 .task-due-date {
   margin-top: 0.25rem;
   font-size: 12px;
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  margin-right: 8px;
 }
 
 dialog {
@@ -72,7 +85,7 @@ dialog:modal {
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
-dialog button {
+button {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 6px;
