@@ -51,6 +51,9 @@ header button:hover {
 }
 
 .task-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 0.5rem 0;
   padding: 0.5rem;
   list-style-type: none;
@@ -97,7 +100,7 @@ input[type="checkbox"]:checked + .task-title {
   margin-left: 32px;
 }
 
-.task-list-item button {
+#deleteTaskBtn {
   padding: 4px 8px;
   border: none;
   border-radius: 4px;
@@ -108,11 +111,11 @@ input[type="checkbox"]:checked + .task-title {
   transition: background-color 0.2s ease;
 }
 
-.task-list-item button:hover {
+.task-delete-wrapper button:hover {
   background-color: #dc2626;
 }
 
-.task-list-item button:active {
+.task-delete-wrapper button:active {
   transform: scale(0.95);
 }
 
