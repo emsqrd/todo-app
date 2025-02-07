@@ -1,0 +1,35 @@
+<section class="task-list-section">
+  <header>
+    <h2>Today</h2>
+    <button (click)="onAddTaskClick()">+ Add Task</button>
+  </header>
+  <div>
+    <ul class="task-list">
+      @for(task of tasks; track task.id) {
+      <li class="task-list-item">
+        <div class="task-list-item-content-wrapper">
+          <input type="checkbox" />
+          <div class="task-title">
+            {{ task.title }}
+          </div>
+        </div>
+        <div class="task-list-item-sub-content-wrapper">
+          <span class="task-due-date">
+            {{ task.dueDate }}
+          </span>
+        </div>
+      </li>
+      }
+    </ul>
+  </div>
+  <dialog #addTaskDialog>
+    <input type="text" #taskTitleInput />
+    <input type="date" #taskDateInput />
+    <button (click)="onCancelDialogClick()">Cancel</button>
+    <button
+      (click)="onSaveTaskClick(taskTitleInput.value, taskDateInput.value)"
+    >
+      Add Task
+    </button>
+  </dialog>
+</section>
