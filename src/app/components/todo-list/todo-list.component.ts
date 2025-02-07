@@ -24,13 +24,7 @@ export class TodoListComponent {
     });
   }
 
-  tasks: Task[] = [
-    {
-      id: 1,
-      title: 'Walk the dog',
-      dueDate: this.formatDate(new Date('02/08/25')),
-    },
-  ];
+  tasks: Task[] = [];
 
   onAddTaskClick() {
     this.addTaskDialog.nativeElement.showModal();
