@@ -8,9 +8,14 @@
       @for(task of tasks; track task.id) {
       <li class="task-list-item">
         <div class="task-list-item-content-wrapper">
-          <input type="checkbox" />
-          <div class="task-title">
-            {{ task.title }}
+          <div class="task-checkbox-title-wrapper">
+            <input type="checkbox" />
+            <div class="task-title">
+              {{ task.title }}
+            </div>
+          </div>
+          <div>
+            <button (click)="onDeleteTaskClick(task.id)">Delete</button>
           </div>
         </div>
         <div class="task-list-item-sub-content-wrapper">

@@ -59,4 +59,8 @@ export class TodoListComponent {
 
     this.onCancelDialogClick();
   }
+
+  onDeleteTaskClick(id: number) {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
+  }
 }
