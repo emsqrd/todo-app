@@ -53,6 +53,10 @@ export class TodoListComponent {
     };
 
     this.tasks.push(newTask);
+
+    this.taskTitleInput.nativeElement.value = '';
+    this.taskDateInput.nativeElement.value = '';
+
     this.onCancelDialogClick();
   }
 }
