@@ -1,11 +1,11 @@
-import { Component, ElementRef, ViewChild, viewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-todo-list',
   standalone: true,
   imports: [],
   templateUrl: './todo-list.component.html',
-  styleUrl: './todo-list.component.css',
+  styleUrls: ['./todo-list.component.css'],
 })
 export class TodoListComponent {
   @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
