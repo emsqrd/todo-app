@@ -1,22 +1,44 @@
 <section class="task-list-section">
   <header>
     <h2>Today</h2>
-    <button (click)="onAddTaskClick()">+ Add Task</button>
+    <button (click)="onAddTaskClick()" aria-label="Add new task">
+      <span>+</span> Add Task
+    </button>
   </header>
   <div>
+    @if(tasks.length <= 0) {
+    <p class="task-list-empty">Add a task to get started</p>
+    }
     <ul class="task-list">
       @for(task of tasks; track task.id) {
       <li class="task-list-item">
-        <div class="task-list-item-content-wrapper">
-          <input type="checkbox" />
-          <div class="task-title">
-            {{ task.title }}
+        <div>
+          <div class="task-list-item-content-wrapper">
+            <div class="task-checkbox-title-wrapper">
+              <input
+                type="checkbox"
+                [id]="'task-' + task.id"
+                aria-label="Mark task as complete"
+              />
+              <div class="task-title">
+                {{ task.title }}
+              </div>
+            </div>
+          </div>
+          <div class="task-list-item-sub-content-wrapper">
+            <span class="task-due-date">
+              {{ task.dueDate }}
+            </span>
           </div>
         </div>
-        <div class="task-list-item-sub-content-wrapper">
-          <span class="task-due-date">
-            {{ task.dueDate }}
-          </span>
+        <div class="task-delete-wrapper">
+          <button
+            id="deleteTaskBtn"
+            (click)="onDeleteTaskClick(task.id)"
+            aria-label="Delete task"
+          >
+            Delete
+          </button>
         </div>
       </li>
       }
@@ -24,8 +46,13 @@
   </div>
   <dialog #addTaskDialog>
     <div class="task-dialog-inputs">
-      <input type="text" #taskTitleInput />
-      <input type="date" #taskDateInput />
+      <input
+        type="text"
+        #taskTitleInput
+        placeholder="Task title"
+        aria-label="Task title"
+      />
+      <input type="date" #taskDateInput aria-label="Due date" />
     </div>
     <div class="task-dialog-buttons">
       <button
