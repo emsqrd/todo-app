@@ -23,13 +23,17 @@
     </ul>
   </div>
   <dialog #addTaskDialog>
-    <input type="text" #taskTitleInput />
-    <input type="date" #taskDateInput />
-    <button (click)="onCancelDialogClick()">Cancel</button>
-    <button
-      (click)="onSaveTaskClick(taskTitleInput.value, taskDateInput.value)"
-    >
-      Add Task
-    </button>
+    <div class="task-dialog-inputs">
+      <input type="text" #taskTitleInput />
+      <input type="date" #taskDateInput />
+    </div>
+    <div class="task-dialog-buttons">
+      <button
+        (click)="onSaveTaskClick(taskTitleInput.value, taskDateInput.value)"
+      >
+        Add Task
+      </button>
+      <button (click)="onCancelDialogClick()">Cancel</button>
+    </div>
   </dialog>
 </section>
