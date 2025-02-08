@@ -1,66 +1,84 @@
 <section class="task-list-section">
-  <header>
-    <h2>Today</h2>
-    <button (click)="onAddTaskClick()" aria-label="Add new task">
+  <header class="header">
+    <h2 class="header__title">Today</h2>
+    <button
+      class="header__button"
+      (click)="onAddTaskClick()"
+      aria-label="Add new task"
+    >
       <span>+</span> Add Task
     </button>
   </header>
-  <div>
+  <div class="tasks">
     @if(tasks.length <= 0) {
-    <p class="task-list-empty">Add a task to get started</p>
+    <p class="task-list--empty">Add a task to get started</p>
     }
-    <ul class="task-list">
+    <ul class="task-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
       @for(task of tasks; track task.id) {
-      <li class="task-list-item">
-        <div>
-          <div class="task-list-item-content-wrapper">
-            <div class="task-checkbox-title-wrapper">
+      <li class="task-list-item" cdkDrag (cdkDragStarted)="onDragStarted()">
+        <div class="task-list-item-placeholder" *cdkDragPlaceholder></div>
+        <div class="task-list-item__drag-handle">
+          <i class="fa-solid fa-grip-vertical"></i>
+        </div>
+        <div class="task-list-item__content">
+          <div class="task-list-item__wrapper">
+            <div class="task-list-item__checkbox-wrapper">
               <input
                 type="checkbox"
                 [id]="'task-' + task.id"
                 aria-label="Mark task as complete"
               />
-              <div class="task-title">
-                {{ task.title }}
+              <div class="task-list-item__details">
+                <div class="task-list-item__title">
+                  {{ task.title }}
+                </div>
+                <span class="task-list-item__due-date">
+                  {{ task.dueDate }}
+                </span>
               </div>
             </div>
           </div>
-          <div class="task-list-item-sub-content-wrapper">
-            <span class="task-due-date">
-              {{ task.dueDate }}
-            </span>
-          </div>
         </div>
-        <div class="task-delete-wrapper">
-          <button
-            id="deleteTaskBtn"
-            (click)="onDeleteTaskClick(task.id)"
-            aria-label="Delete task"
-          >
-            Delete
-          </button>
-        </div>
+        <button
+          class="task-list-item__delete"
+          (click)="onDeleteTaskClick(task.id)"
+          aria-label="Delete task"
+        >
+          <i class="fa-solid fa-trash-can fa-lg" style="color: #ef4444"></i>
+        </button>
       </li>
       }
     </ul>
   </div>
-  <dialog #addTaskDialog>
-    <div class="task-dialog-inputs">
+  <dialog class="task-dialog" #addTaskDialog>
+    <div class="task-dialog__inputs">
       <input
+        class="task-dialog__input"
         type="text"
         #taskTitleInput
         placeholder="Task title"
         aria-label="Task title"
       />
-      <input type="date" #taskDateInput aria-label="Due date" />
+      <input
+        class="task-dialog__input"
+        type="date"
+        #taskDateInput
+        aria-label="Due date"
+      />
     </div>
-    <div class="task-dialog-buttons">
+    <div class="task-dialog__buttons">
       <button
+        class="task-dialog__button task-dialog__button--primary"
         (click)="onSaveTaskClick(taskTitleInput.value, taskDateInput.value)"
       >
         Add Task
       </button>
-      <button (click)="onCancelDialogClick()">Cancel</button>
+      <button
+        class="task-dialog__button task-dialog__button--secondary"
+        (click)="onCancelDialogClick()"
+      >
+        Cancel
+      </button>
     </div>
   </dialog>
 </section>

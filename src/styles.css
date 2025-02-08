@@ -9,3 +9,7 @@
     "Apple Color Emoji", Helvetica, Arial, sans-serif, "Segoe UI Emoji",
     "Segoe UI Symbol";
 }
+
+body.inheritCursors * {
+  cursor: inherit !important;
+}
