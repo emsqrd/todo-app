@@ -7,7 +7,7 @@ import {
 
 interface Task {
   id: number;
-  title: string;
+  name: string;
   dueDate: string;
 }
 
@@ -20,7 +20,7 @@ interface Task {
 })
 export class TodoListComponent {
   @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
-  @ViewChild('taskTitleInput') taskTitleInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('taskNameInput') taskNameInput!: ElementRef<HTMLInputElement>;
   @ViewChild('taskDateInput') taskDateInput!: ElementRef<HTMLInputElement>;
 
   bodyElement: HTMLElement = document.body;
@@ -35,27 +35,27 @@ export class TodoListComponent {
   tasks: Task[] = [
     {
       id: Math.random(),
-      title: 'Walk the dog',
+      name: 'Walk the dog',
       dueDate: this.formatDate(new Date('02/05/25')),
     },
     {
       id: Math.random(),
-      title: 'Read a book',
+      name: 'Read a book',
       dueDate: this.formatDate(new Date('02/23/25')),
     },
     {
       id: Math.random(),
-      title: 'Take out the garbage',
+      name: 'Take out the garbage',
       dueDate: this.formatDate(new Date('02/05/25')),
     },
     {
       id: Math.random(),
-      title: 'Make dinner',
+      name: 'Make dinner',
       dueDate: this.formatDate(new Date('02/07/25')),
     },
     {
       id: Math.random(),
-      title: 'Do laundry',
+      name: 'Do laundry',
       dueDate: this.formatDate(new Date('02/13/25')),
     },
   ];
@@ -68,16 +68,16 @@ export class TodoListComponent {
     this.addTaskDialog.nativeElement.close();
   }
 
-  onSaveTaskClick(title: string, date: string) {
+  onSaveTaskClick(name: string, date: string) {
     const newTask = {
       id: Math.random(),
-      title: title,
+      name: name,
       dueDate: this.formatDate(new Date(date)),
     };
 
     this.tasks.push(newTask);
 
-    this.taskTitleInput.nativeElement.value = '';
+    this.taskNameInput.nativeElement.value = '';
     this.taskDateInput.nativeElement.value = '';
 
     this.onCancelDialogClick();
