@@ -9,10 +9,12 @@
     @if(tasks.length <= 0) {
     <p class="task-list-empty">Add a task to get started</p>
     }
-    <ul class="task-list">
+    <ul class="task-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
       @for(task of tasks; track task.id) {
-      <li class="task-list-item">
-        <div>
+      <li class="task-list-item" cdkDrag (cdkDragStarted)="onDragStarted()">
+        <div class="task-list-item-placeholder" *cdkDragPlaceholder></div>
+        <div class="task-list-item-drag-handle">::</div>
+        <div class="task-content">
           <div class="task-list-item-content-wrapper">
             <div class="task-checkbox-title-wrapper">
               <input
@@ -20,23 +22,19 @@
                 [id]="'task-' + task.id"
                 aria-label="Mark task as complete"
               />
-              <div class="task-title">
-                {{ task.title }}
+              <div class="task-details">
+                <div class="task-title">
+                  {{ task.title }}
+                </div>
+                <span class="task-due-date">
+                  {{ task.dueDate }}
+                </span>
               </div>
             </div>
           </div>
-          <div class="task-list-item-sub-content-wrapper">
-            <span class="task-due-date">
-              {{ task.dueDate }}
-            </span>
-          </div>
         </div>
         <div class="task-delete-wrapper">
-          <button
-            id="deleteTaskBtn"
-            (click)="onDeleteTaskClick(task.id)"
-            aria-label="Delete task"
-          >
+          <button (click)="onDeleteTaskClick(task.id)" aria-label="Delete task">
             Delete
           </button>
         </div>
