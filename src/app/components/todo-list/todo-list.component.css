@@ -143,7 +143,10 @@
   cursor: pointer;
 }
 
-input[type="checkbox"]:checked + .task-list-item__name {
+.task-list-item__checkbox-wrapper
+  input[type="checkbox"]:checked
+  ~ .task-list-item__details
+  .task-list-item__name {
   text-decoration: line-through;
   color: #9ca3af;
 }
