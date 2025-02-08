@@ -10,6 +10,12 @@
     "Segoe UI Symbol";
 }
 
+body {
+  background-color: #f1f5f9;
+  min-height: 100vh;
+  margin: 0;
+}
+
 body.inheritCursors * {
   cursor: inherit !important;
 }

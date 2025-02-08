@@ -6,7 +6,8 @@
   flex-direction: column;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  background-color: #f8fafc;
 }
 
 /* Header Components */
@@ -14,30 +15,41 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
 }
 
-.header__title {
-  font-size: 24px;
-  font-weight: 600;
-  color: #111827;
+.header__name {
+  font-size: 26px;
+  font-family: "Inter", -apple-system, system-ui, sans-serif;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
 }
 
 .header__button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 0.75rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
   background-color: #3b82f6;
   color: white;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
 }
 
 .header__button:hover {
   background-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
+}
+
+.header__button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(59, 130, 246, 0.2);
 }
 
 /* Task List Components */
@@ -47,9 +59,9 @@
   font-size: 16px;
   padding: 2rem;
   margin: 2rem 0;
-  /* background-color: #f9fafb; */
   border: 2px dashed #e5e7eb;
   border-radius: 8px;
+  background-color: white;
 }
 
 .task-list-item {
@@ -61,6 +73,11 @@
   transition: all 0.2s ease;
   width: 100%;
   box-sizing: border-box;
+  background-color: white;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .task-list-item__drag-handle {
@@ -85,7 +102,7 @@
   gap: 4px;
 }
 
-.task-list-item__title {
+.task-list-item__name {
   font-size: 14px;
   transition: all 0.2s ease;
 }
@@ -97,11 +114,17 @@
 }
 
 .task-list-item__delete {
-  padding: 4px 8px;
+  padding: 8px;
   border: none;
-  background-color: white;
+  background-color: transparent;
   cursor: pointer;
   opacity: 0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.task-list-item__delete:hover {
+  background-color: #fee2e2;
 }
 
 .task-list-item:hover .task-list-item__drag-handle,
@@ -120,7 +143,10 @@
   cursor: pointer;
 }
 
-input[type="checkbox"]:checked + .task-list-item__title {
+.task-list-item__checkbox-wrapper
+  input[type="checkbox"]:checked
+  ~ .task-list-item__details
+  .task-list-item__name {
   text-decoration: line-through;
   color: #9ca3af;
 }
@@ -155,43 +181,116 @@ input[type="checkbox"] {
 .task-dialog__inputs {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.task-dialog__input-group {
+  margin-bottom: 0;
 }
 
 .task-dialog__input {
+  width: 100%;
   padding: 0.75rem;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  color: #1f2937;
+  background-color: #fff;
+}
+
+.task-dialog__input::placeholder {
+  color: #9ca3af;
 }
 
 .task-dialog__input:focus {
   border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.task-dialog__input--date {
+  width: 100%;
+  min-width: unset;
+  cursor: pointer;
+}
+
+.task-dialog__input--full {
+  width: 100%;
+}
+
+.task-dialog__buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
 }
 
 .task-dialog__button {
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .task-dialog__button--primary {
   background-color: #3b82f6;
   color: white;
-  margin-right: 0.75rem;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.task-dialog__button--primary:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
+}
+
+.task-dialog__button--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(59, 130, 246, 0.2);
 }
 
 .task-dialog__button--secondary {
-  background-color: #e5e7eb;
+  background-color: #f3f4f6;
   color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.task-dialog__button--secondary:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+.task-dialog__button--secondary:active {
+  transform: translateY(0);
+}
+
+.task-dialog__input-group {
+  margin-bottom: 1rem;
+}
+
+.task-dialog__input-group:last-child {
+  margin-bottom: 0;
+}
+
+.task-dialog__input--full {
+  width: 100%;
+}
+
+.task-dialog__input--date {
+  width: auto;
+  min-width: 200px;
+}
+
+.task-dialog__input--name {
+  flex: 1;
+}
+
+.task-dialog__input--date {
+  width: 130px;
 }
 
 /* Drag and Drop Utilities */
