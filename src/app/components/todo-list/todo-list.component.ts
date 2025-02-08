@@ -53,6 +53,11 @@ export class TodoListComponent {
       title: 'Make dinner',
       dueDate: this.formatDate(new Date('02/07/25')),
     },
+    {
+      id: Math.random(),
+      title: 'Do laundry',
+      dueDate: this.formatDate(new Date('02/13/25')),
+    },
   ];
 
   onAddTaskClick() {
