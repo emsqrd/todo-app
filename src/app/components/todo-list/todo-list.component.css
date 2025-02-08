@@ -43,8 +43,8 @@
 
 /* Task List Components */
 .task-list {
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
+  /* border: 1px solid #e5e7eb;
+  border-radius: 6px; */
 }
 
 .task-list--empty {
@@ -60,27 +60,19 @@
 
 .task-list-item {
   display: flex;
-  align-items: center; /* Changed from flex-start to center */
+  align-items: center;
   gap: 8px;
   padding: 0.75rem;
   border-bottom: solid 1px #e5e7eb;
   background-color: white;
   cursor: grab;
   transition: all 0.2s ease;
-  width: 100%; /* Add explicit width */
-  box-sizing: border-box; /* Ensure padding is included in width */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .task-list-item:hover {
-  background-color: #f8fafc;
-}
-
-.task-list-item:first-child {
-  border-radius: 6px 6px 0 0;
-}
-.task-list-item:last-child {
-  border: none;
-  border-radius: 0 0 6px 6px;
+  /* background-color: #f8fafc; */
 }
 
 .task-list-item__drag-handle {
@@ -119,16 +111,13 @@
 .task-list-item__delete {
   padding: 4px 8px;
   border: none;
-  border-radius: 4px;
-  background-color: #ef4444;
-  color: white;
-  font-size: 12px;
+  background-color: white;
   cursor: pointer;
   opacity: 0;
 }
 
 .task-list-item__delete:hover {
-  background-color: #dc2626;
+  /* background-color: #dc2626; */
 }
 
 .task-list-item:hover .task-list-item__drag-handle,
