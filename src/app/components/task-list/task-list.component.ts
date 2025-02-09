@@ -7,6 +7,7 @@ import {
 
 import { TaskComponent } from '../task/task.component';
 import { Task } from '../../models/task';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-task-list',
@@ -22,40 +23,15 @@ export class TaskListComponent {
 
   bodyElement: HTMLElement = document.body;
 
-  private formatDate(date: Date): string {
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
+  constructor(private taskService: TaskService) {}
+
+  tasks: Task[] = [];
+
+  getTasks() {
+    this.taskService.getTasks().subscribe((tasks) => {
+      this.tasks = tasks;
     });
   }
-
-  tasks: Task[] = [
-    {
-      id: Math.random(),
-      name: 'Walk the dog',
-      dueDate: new Date('02/05/25'),
-    },
-    {
-      id: Math.random(),
-      name: 'Read a book',
-      dueDate: new Date('02/23/25'),
-    },
-    {
-      id: Math.random(),
-      name: 'Take out the garbage',
-      dueDate: new Date('02/05/25'),
-    },
-    {
-      id: Math.random(),
-      name: 'Make dinner',
-      dueDate: new Date('02/07/25'),
-    },
-    {
-      id: Math.random(),
-      name: 'Do laundry',
-      dueDate: new Date('02/13/25'),
-    },
-  ];
 
   onAddTaskClick() {
     this.addTaskDialog.nativeElement.showModal();
@@ -88,5 +64,9 @@ export class TaskListComponent {
 
   handleDeleteTask(id: number) {
     this.tasks = this.tasks.filter((task) => task.id !== id);
+  }
+
+  ngOnInit() {
+    this.getTasks();
   }
 }
