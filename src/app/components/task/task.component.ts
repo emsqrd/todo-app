@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../models/task';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [DragDropModule],
+  imports: [DragDropModule, DatePipe],
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css'],
 })
