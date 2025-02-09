@@ -12,13 +12,13 @@ interface Task {
 }
 
 @Component({
-  selector: 'app-todo-list',
+  selector: 'app-task-list',
   standalone: true,
   imports: [DragDropModule],
-  templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.css'],
+  templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.css'],
 })
-export class TodoListComponent {
+export class TaskListComponent {
   @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
   @ViewChild('taskNameInput') taskNameInput!: ElementRef<HTMLInputElement>;
   @ViewChild('taskDateInput') taskDateInput!: ElementRef<HTMLInputElement>;
