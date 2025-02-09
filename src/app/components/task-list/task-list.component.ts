@@ -5,20 +5,17 @@ import {
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
 
-interface Task {
-  id: number;
-  name: string;
-  dueDate: string;
-}
+import { TaskComponent } from '../task/task.component';
+import { Task } from '../../models/task';
 
 @Component({
-  selector: 'app-todo-list',
+  selector: 'app-task-list',
   standalone: true,
-  imports: [DragDropModule],
-  templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.css'],
+  imports: [DragDropModule, TaskComponent],
+  templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.css'],
 })
-export class TodoListComponent {
+export class TaskListComponent {
   @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
   @ViewChild('taskNameInput') taskNameInput!: ElementRef<HTMLInputElement>;
   @ViewChild('taskDateInput') taskDateInput!: ElementRef<HTMLInputElement>;
@@ -36,27 +33,27 @@ export class TodoListComponent {
     {
       id: Math.random(),
       name: 'Walk the dog',
-      dueDate: this.formatDate(new Date('02/05/25')),
+      dueDate: new Date('02/05/25'),
     },
     {
       id: Math.random(),
       name: 'Read a book',
-      dueDate: this.formatDate(new Date('02/23/25')),
+      dueDate: new Date('02/23/25'),
     },
     {
       id: Math.random(),
       name: 'Take out the garbage',
-      dueDate: this.formatDate(new Date('02/05/25')),
+      dueDate: new Date('02/05/25'),
     },
     {
       id: Math.random(),
       name: 'Make dinner',
-      dueDate: this.formatDate(new Date('02/07/25')),
+      dueDate: new Date('02/07/25'),
     },
     {
       id: Math.random(),
       name: 'Do laundry',
-      dueDate: this.formatDate(new Date('02/13/25')),
+      dueDate: new Date('02/13/25'),
     },
   ];
 
@@ -72,7 +69,7 @@ export class TodoListComponent {
     const newTask = {
       id: Math.random(),
       name: name,
-      dueDate: this.formatDate(new Date(date)),
+      dueDate: new Date(date),
     };
 
     this.tasks.push(newTask);
@@ -83,18 +80,13 @@ export class TodoListComponent {
     this.onCancelDialogClick();
   }
 
-  onDeleteTaskClick(id: number) {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
-  }
-
-  onDragStarted() {
-    this.bodyElement.classList.add('inheritCursors');
-    this.bodyElement.style.cursor = 'grabbing';
-  }
-
   onDrop(event: CdkDragDrop<Task[]>) {
     moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
     this.bodyElement.classList.remove('inheritCursors');
     this.bodyElement.style.cursor = 'unset';
+  }
+
+  handleDeleteTask(id: number) {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 }

@@ -1,0 +1,32 @@
+<li class="task-list-item" cdkDrag (cdkDragStarted)="onDragStarted()">
+  <div class="task-list-item-placeholder" *cdkDragPlaceholder></div>
+  <div class="task-list-item__drag-handle">
+    <i class="fa-solid fa-grip-vertical"></i>
+  </div>
+  <div class="task-list-item__content">
+    <div class="task-list-item__wrapper">
+      <div class="task-list-item__checkbox-wrapper">
+        <input
+          type="checkbox"
+          [id]="'task-' + task.id"
+          aria-label="Mark task as complete"
+        />
+        <div class="task-list-item__details">
+          <div class="task-list-item__name">
+            {{ task.name }}
+          </div>
+          <span class="task-list-item__due-date">
+            {{ task.dueDate | date : "MMM d" }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    class="task-list-item__delete"
+    (click)="onDeleteTaskClick(task.id)"
+    aria-label="Delete task"
+  >
+    <i class="fa-solid fa-trash-can fa-lg" style="color: #ef4444"></i>
+  </button>
+</li>
