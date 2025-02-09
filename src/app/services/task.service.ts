@@ -13,7 +13,6 @@ export class TaskService {
   constructor(private http: HttpClient) {}
 
   getTasks(): Observable<Task[]> {
-    console.log(`${this.baseUrl}/tasks`);
     return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
   }
 }
