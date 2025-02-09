@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Task } from '../models/task';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  private baseUrl = 'https://todoapi-9d82.onrender.com';
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
