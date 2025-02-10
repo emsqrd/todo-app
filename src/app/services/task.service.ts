@@ -12,7 +12,15 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
 
+  createTask(task: Omit<Task, 'id'>): Observable<Task> {
+    return this.http.post<Task>(`${this.baseUrl}/tasks`, task);
+  }
+
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
+  }
+
+  deleteTask(id: string): Observable<Task> {
+    return this.http.delete<Task>(`${this.baseUrl}/tasks/${id}`);
   }
 }
