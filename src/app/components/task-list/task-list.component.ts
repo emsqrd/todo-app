@@ -42,18 +42,17 @@ export class TaskListComponent {
   }
 
   onSaveTaskClick(name: string, date: string) {
-    const newTask = {
-      id: Math.random(),
+    const newTask: Omit<Task, 'id'> = {
       name: name,
       dueDate: new Date(date),
     };
 
-    this.tasks.push(newTask);
-
-    this.taskNameInput.nativeElement.value = '';
-    this.taskDateInput.nativeElement.value = '';
-
-    this.onCancelDialogClick();
+    this.taskService.createTask(newTask).subscribe((createdTask) => {
+      this.tasks.push(createdTask);
+      this.taskNameInput.nativeElement.value = '';
+      this.taskDateInput.nativeElement.value = '';
+      this.onCancelDialogClick();
+    });
   }
 
   onDrop(event: CdkDragDrop<Task[]>) {
@@ -62,8 +61,10 @@ export class TaskListComponent {
     this.bodyElement.style.cursor = 'unset';
   }
 
-  handleDeleteTask(id: number) {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+  handleDeleteTask(id: string) {
+    this.taskService.deleteTask(id).subscribe((_) => {
+      this.tasks = this.tasks.filter((task) => task.id !== id);
+    });
   }
 
   ngOnInit() {
