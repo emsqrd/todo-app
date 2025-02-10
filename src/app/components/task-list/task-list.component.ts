@@ -1,10 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import {
   CdkDragDrop,
   DragDropModule,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-
 import { TaskComponent } from '../task/task.component';
 import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
@@ -17,14 +16,15 @@ import { TaskService } from '../../services/task.service';
   styleUrls: ['./task-list.component.css'],
 })
 export class TaskListComponent {
-  @ViewChild('addTaskDialog') addTaskDialog!: ElementRef<HTMLDialogElement>;
-  @ViewChild('taskNameInput') taskNameInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('taskDateInput') taskDateInput!: ElementRef<HTMLInputElement>;
+  private readonly taskService = inject(TaskService);
+  @ViewChild('addTaskDialog')
+  protected readonly addTaskDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('taskNameInput')
+  protected readonly taskNameInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('taskDateInput')
+  protected readonly taskDateInput!: ElementRef<HTMLInputElement>;
 
   bodyElement: HTMLElement = document.body;
-
-  constructor(private taskService: TaskService) {}
-
   tasks: Task[] = [];
 
   getTasks() {
