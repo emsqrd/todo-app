@@ -2,10 +2,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   Output,
   ViewChild,
 } from '@angular/core';
+import { Task } from '../../models/task';
 
 @Component({
   selector: 'app-task-new',
@@ -19,16 +19,18 @@ export class TaskNewComponent {
   protected readonly taskNameInput!: ElementRef<HTMLInputElement>;
   @ViewChild('taskDateInput')
   protected readonly taskDateInput!: ElementRef<HTMLInputElement>;
-  @Output() handleSaveClick = new EventEmitter<{
-    taskName: string;
-    dueDate: string;
-  }>();
+  @Output() handleSaveClick = new EventEmitter<Omit<Task, 'id'>>();
   @Output() handleCancelClick = new EventEmitter<null>();
 
   addTask(taskName: string, dueDate: string) {
+    const newTask: Omit<Task, 'id'> = {
+      name: taskName,
+      dueDate: new Date(dueDate),
+    };
+
     this.taskNameInput.nativeElement.value = '';
     this.taskDateInput.nativeElement.value = '';
-    this.handleSaveClick.emit({ taskName, dueDate });
+    this.handleSaveClick.emit(newTask);
   }
 
   cancelClick() {

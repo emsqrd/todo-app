@@ -38,18 +38,7 @@ export class TaskListComponent {
     this.addTaskDialog.nativeElement.close();
   }
 
-  onSaveTaskClick({
-    taskName,
-    dueDate,
-  }: {
-    taskName: string;
-    dueDate: string;
-  }) {
-    const newTask: Omit<Task, 'id'> = {
-      name: taskName,
-      dueDate: new Date(dueDate),
-    };
-
+  onSaveTaskClick(newTask: Omit<Task, 'id'>) {
     this.taskService.createTask(newTask).subscribe((createdTask) => {
       this.tasks.push(createdTask);
       this.onCancelDialogClick();
