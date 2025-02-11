@@ -1,27 +1,66 @@
-# TodoApp
+# Todo Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.2.
+A modern task management application built with Angular 18.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Create new tasks with names and due dates
+- View list of all tasks
+- Delete existing tasks
+- RESTful API integration
 
-## Code scaffolding
+## Prerequisites
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Node.js (LTS version recommended)
+- Angular CLI v18.2.2 or higher
 
-## Build
+## Installation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Clone the repository:
 
-## Running unit tests
+```bash
+git clone https://github.com/emsqrd/todo-app.git
+cd todo-app
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. Install dependencies:
 
-## Running end-to-end tests
+```bash
+npm install
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+3. Start the development server:
 
-## Further help
+```bash
+npm start
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The application will be available at `http://localhost:4200`
+
+## Project Structure
+
+- `src/app/models` - Data models and interfaces
+- `src/app/services` - Angular services for API communication
+- `src/app/components` - Angular components
+
+## Available Scripts
+
+- `npm start` - Runs the development server
+- `npm run build` - Builds the application for production
+- `npm test` - Executes unit tests
+- `npm run watch` - Builds the application in watch mode
+
+## Technical Stack
+
+- Angular 18
+- RxJS
+- Angular CDK
+- TypeScript
+
+## API Integration
+
+The application communicates with a RESTful API using the following endpoints:
+
+- `GET /tasks` - Retrieve all tasks
+- `POST /tasks` - Create a new task
+- `DELETE /tasks/:id` - Delete a specific task
