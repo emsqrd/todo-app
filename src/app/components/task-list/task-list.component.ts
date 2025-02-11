@@ -5,13 +5,14 @@ import {
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
 import { TaskComponent } from '../task/task.component';
+import { TaskNewComponent } from '../task-new/task-new.component';
 import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [DragDropModule, TaskComponent],
+  imports: [DragDropModule, TaskComponent, TaskNewComponent],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
 })
@@ -19,10 +20,6 @@ export class TaskListComponent {
   private readonly taskService = inject(TaskService);
   @ViewChild('addTaskDialog')
   protected readonly addTaskDialog!: ElementRef<HTMLDialogElement>;
-  @ViewChild('taskNameInput')
-  protected readonly taskNameInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('taskDateInput')
-  protected readonly taskDateInput!: ElementRef<HTMLInputElement>;
 
   bodyElement: HTMLElement = document.body;
   tasks: Task[] = [];
@@ -41,16 +38,20 @@ export class TaskListComponent {
     this.addTaskDialog.nativeElement.close();
   }
 
-  onSaveTaskClick(name: string, date: string) {
+  onSaveTaskClick({
+    taskName,
+    dueDate,
+  }: {
+    taskName: string;
+    dueDate: string;
+  }) {
     const newTask: Omit<Task, 'id'> = {
-      name: name,
-      dueDate: new Date(date),
+      name: taskName,
+      dueDate: new Date(dueDate),
     };
 
     this.taskService.createTask(newTask).subscribe((createdTask) => {
       this.tasks.push(createdTask);
-      this.taskNameInput.nativeElement.value = '';
-      this.taskDateInput.nativeElement.value = '';
       this.onCancelDialogClick();
     });
   }

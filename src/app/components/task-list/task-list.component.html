@@ -23,38 +23,9 @@
     </ul>
   </div>
   <dialog class="task-new" #addTaskDialog>
-    <div class="task-new__inputs">
-      <div class="task-new__input-group">
-        <input
-          class="task-new__input task-new__input--full"
-          type="text"
-          #taskNameInput
-          placeholder="Task name"
-          aria-label="Task name"
-        />
-      </div>
-      <div class="task-new__input-group">
-        <input
-          class="task-new__input task-new__input--date"
-          type="date"
-          #taskDateInput
-          aria-label="Due date"
-        />
-      </div>
-    </div>
-    <div class="task-new__buttons">
-      <button
-        class="task-new__button task-new__button--primary"
-        (click)="onSaveTaskClick(taskNameInput.value, taskDateInput.value)"
-      >
-        Add Task
-      </button>
-      <button
-        class="task-new__button task-new__button--secondary"
-        (click)="onCancelDialogClick()"
-      >
-        Cancel
-      </button>
-    </div>
+    <app-task-new
+      (handleSaveClick)="onSaveTaskClick($event)"
+      (handleCancelClick)="onCancelDialogClick()"
+    ></app-task-new>
   </dialog>
 </section>
