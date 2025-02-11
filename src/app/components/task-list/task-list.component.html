@@ -22,35 +22,35 @@
       }
     </ul>
   </div>
-  <dialog class="task-dialog" #addTaskDialog>
-    <div class="task-dialog__inputs">
-      <div class="task-dialog__input-group">
+  <dialog class="task-new" #addTaskDialog>
+    <div class="task-new__inputs">
+      <div class="task-new__input-group">
         <input
-          class="task-dialog__input task-dialog__input--full"
+          class="task-new__input task-new__input--full"
           type="text"
           #taskNameInput
           placeholder="Task name"
           aria-label="Task name"
         />
       </div>
-      <div class="task-dialog__input-group">
+      <div class="task-new__input-group">
         <input
-          class="task-dialog__input task-dialog__input--date"
+          class="task-new__input task-new__input--date"
           type="date"
           #taskDateInput
           aria-label="Due date"
         />
       </div>
     </div>
-    <div class="task-dialog__buttons">
+    <div class="task-new__buttons">
       <button
-        class="task-dialog__button task-dialog__button--primary"
+        class="task-new__button task-new__button--primary"
         (click)="onSaveTaskClick(taskNameInput.value, taskDateInput.value)"
       >
         Add Task
       </button>
       <button
-        class="task-dialog__button task-dialog__button--secondary"
+        class="task-new__button task-new__button--secondary"
         (click)="onCancelDialogClick()"
       >
         Cancel
