@@ -13,8 +13,13 @@ import { DatePipe } from '@angular/common';
 export class TaskComponent {
   @Input() task!: Task;
   @Output() deleteTask = new EventEmitter<string>();
+  @Output() selectedTask = new EventEmitter<Task>();
 
   bodyElement: HTMLElement = document.body;
+
+  onTaskClick() {
+    this.selectedTask.emit(this.task);
+  }
 
   onDeleteTaskClick(id: string) {
     this.deleteTask.emit(id);

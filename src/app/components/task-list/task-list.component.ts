@@ -9,21 +9,28 @@ import { TaskNewComponent } from '../task-new/task-new.component';
 import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
 import { ModalComponent } from '../modal/modal.component';
+import { TaskDetailComponent } from '../task-detail/task-detail.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [DragDropModule, TaskComponent, TaskNewComponent, ModalComponent],
+  imports: [
+    DragDropModule,
+    ModalComponent,
+    TaskComponent,
+    TaskNewComponent,
+    TaskDetailComponent,
+  ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
 })
 export class TaskListComponent {
   private readonly taskService = inject(TaskService);
-  @ViewChild('addTaskDialog')
-  protected readonly addTaskDialog!: ElementRef<HTMLDialogElement>;
+  selectedTask!: Task;
 
   bodyElement: HTMLElement = document.body;
   showAddTaskModal = false;
+  showTaskDetailModal = false;
   tasks: Task[] = [];
 
   getTasks() {
@@ -36,14 +43,23 @@ export class TaskListComponent {
     this.showAddTaskModal = true;
   }
 
-  onCancelDialogClick() {
+  onNewTaskModalClose() {
     this.showAddTaskModal = false;
+  }
+
+  onTaskDetailModalClose() {
+    this.showTaskDetailModal = false;
+  }
+
+  onTaskSelect(task: Task) {
+    this.showTaskDetailModal = true;
+    this.selectedTask = task;
   }
 
   onSaveTaskClick(newTask: Omit<Task, 'id'>) {
     this.taskService.createTask(newTask).subscribe((createdTask) => {
       this.tasks.push(createdTask);
-      this.onCancelDialogClick();
+      this.onNewTaskModalClose();
     });
   }
 

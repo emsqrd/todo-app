@@ -1,4 +1,9 @@
-<li class="task-list-item" cdkDrag (cdkDragStarted)="onDragStarted()">
+<li
+  class="task-list-item"
+  cdkDrag
+  (cdkDragStarted)="onDragStarted()"
+  (click)="onTaskClick()"
+>
   <div class="task-list-item-placeholder" *cdkDragPlaceholder></div>
   <div class="task-list-item__drag-handle">
     <i class="fa-solid fa-grip-vertical"></i>

@@ -18,16 +18,21 @@
       <app-task
         [task]="task"
         (deleteTask)="handleDeleteTask($event)"
+        (selectedTask)="onTaskSelect($event)"
       ></app-task>
       }
     </ul>
   </div>
   @if (showAddTaskModal) {
-  <app-modal (close)="onCancelDialogClick()" [showCloseButton]="false">
+  <app-modal (close)="onNewTaskModalClose()" [showCloseButton]="false">
     <app-task-new
       (handleSaveClick)="onSaveTaskClick($event)"
-      (handleCancelClick)="onCancelDialogClick()"
+      (handleCancelClick)="onNewTaskModalClose()"
     ></app-task-new>
+  </app-modal>
+  } @if (showTaskDetailModal) {
+  <app-modal (close)="onTaskDetailModalClose()" [showCloseButton]="true">
+    <app-task-detail [task]="selectedTask"></app-task-detail>
   </app-modal>
   }
 </section>
