@@ -1,0 +1,14 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div
+    class="modal-content"
+    [class.has-close-button]="showCloseButton"
+    (click)="$event.stopPropagation()"
+  >
+    @if (showCloseButton) {
+    <button class="close-button" (click)="closeModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    }
+    <ng-content></ng-content>
+  </div>
+</div>

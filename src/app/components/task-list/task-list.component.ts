@@ -8,11 +8,12 @@ import { TaskComponent } from '../task/task.component';
 import { TaskNewComponent } from '../task-new/task-new.component';
 import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [DragDropModule, TaskComponent, TaskNewComponent],
+  imports: [DragDropModule, TaskComponent, TaskNewComponent, ModalComponent],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
 })
@@ -22,6 +23,7 @@ export class TaskListComponent {
   protected readonly addTaskDialog!: ElementRef<HTMLDialogElement>;
 
   bodyElement: HTMLElement = document.body;
+  showAddTaskModal = false;
   tasks: Task[] = [];
 
   getTasks() {
@@ -31,11 +33,11 @@ export class TaskListComponent {
   }
 
   onAddTaskClick() {
-    this.addTaskDialog.nativeElement.showModal();
+    this.showAddTaskModal = true;
   }
 
   onCancelDialogClick() {
-    this.addTaskDialog.nativeElement.close();
+    this.showAddTaskModal = false;
   }
 
   onSaveTaskClick(newTask: Omit<Task, 'id'>) {

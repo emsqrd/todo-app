@@ -10,11 +10,11 @@
     </button>
   </header>
   <div class="tasks">
-    @if(tasks.length <= 0) {
+    @if (tasks.length <= 0) {
     <p class="task-list--empty">Add a task to get started</p>
     }
     <ul class="task-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
-      @for(task of tasks; track task.id) {
+      @for (task of tasks; track task.id) {
       <app-task
         [task]="task"
         (deleteTask)="handleDeleteTask($event)"
@@ -22,10 +22,12 @@
       }
     </ul>
   </div>
-  <dialog class="task-new" #addTaskDialog>
+  @if (showAddTaskModal) {
+  <app-modal (close)="onCancelDialogClick()" [showCloseButton]="false">
     <app-task-new
       (handleSaveClick)="onSaveTaskClick($event)"
       (handleCancelClick)="onCancelDialogClick()"
     ></app-task-new>
-  </dialog>
+  </app-modal>
+  }
 </section>
