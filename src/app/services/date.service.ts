@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class DateService {
+  // Parse date to strip out local time zone setting
   parseDate(dateStr: string): Date {
     // Assume format yyyy-MM-dd
     const [year, month, day] = dateStr.split('-').map(Number);

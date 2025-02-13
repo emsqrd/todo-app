@@ -1,14 +1,9 @@
-<li
-  class="task-list-item"
-  cdkDrag
-  (cdkDragStarted)="onDragStarted()"
-  (click)="onTaskClick()"
->
+<li class="task-list-item" cdkDrag (cdkDragStarted)="onDragStarted()">
   <div class="task-list-item-placeholder" *cdkDragPlaceholder></div>
   <div class="task-list-item__drag-handle">
     <i class="fa-solid fa-grip-vertical"></i>
   </div>
-  <div class="task-list-item__content">
+  <div class="task-list-item__content" (click)="onTaskClick()">
     <div class="task-list-item__wrapper">
       <div class="task-list-item__checkbox-wrapper">
         <input
