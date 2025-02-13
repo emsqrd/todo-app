@@ -10,5 +10,5 @@ import { DatePipe } from '@angular/common';
   styleUrl: './task-detail.component.css',
 })
 export class TaskDetailComponent {
-  @Input() task!: Task;
+  @Input({ required: true }) task!: Task;
 }

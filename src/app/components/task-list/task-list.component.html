@@ -25,14 +25,24 @@
   </div>
   @if (showAddTaskModal) {
   <app-modal (close)="onNewTaskModalClose()" [showCloseButton]="false">
-    <app-task-new
-      (handleSaveClick)="onSaveTaskClick($event)"
-      (handleCancelClick)="onNewTaskModalClose()"
-    ></app-task-new>
+    <div modal-header>
+      <span>Add Task</span>
+    </div>
+    <div modal-body>
+      <app-task-new
+        (handleSaveClick)="onSaveTaskClick($event)"
+        (handleCancelClick)="onNewTaskModalClose()"
+      ></app-task-new>
+    </div>
   </app-modal>
-  } @if (showTaskDetailModal) {
+  } @if (isTaskDetailModalOpen) {
   <app-modal (close)="onTaskDetailModalClose()" [showCloseButton]="true">
-    <app-task-detail [task]="selectedTask"></app-task-detail>
+    <div modal-header>
+      <span>Task Detail</span>
+    </div>
+    <div modal-body>
+      <app-task-detail [task]="selectedTask"></app-task-detail>
+    </div>
   </app-modal>
   }
 </section>

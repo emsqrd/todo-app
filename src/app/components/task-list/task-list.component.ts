@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   CdkDragDrop,
   DragDropModule,
@@ -27,11 +27,15 @@ import { TaskDetailComponent } from '../task-detail/task-detail.component';
 export class TaskListComponent {
   private readonly taskService = inject(TaskService);
   selectedTask!: Task;
+  showTaskDetailModal = signal(false);
 
   bodyElement: HTMLElement = document.body;
   showAddTaskModal = false;
-  showTaskDetailModal = false;
   tasks: Task[] = [];
+
+  get isTaskDetailModalOpen() {
+    return this.showTaskDetailModal();
+  }
 
   getTasks() {
     this.taskService.getTasks().subscribe((tasks) => {
@@ -48,11 +52,11 @@ export class TaskListComponent {
   }
 
   onTaskDetailModalClose() {
-    this.showTaskDetailModal = false;
+    this.showTaskDetailModal.set(false);
   }
 
   onTaskSelect(task: Task) {
-    this.showTaskDetailModal = true;
+    this.showTaskDetailModal.set(true);
     this.selectedTask = task;
   }
 

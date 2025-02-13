@@ -14,31 +14,43 @@
 
 .modal-content {
   background: white;
-  padding: 24px;
   position: relative;
   min-width: 400px;
   max-width: 80vw;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   animation: slideIn 0.3s ease-out;
   border-radius: 8px;
+  padding: 0;
 }
 
-.modal-content.has-close-button {
-  padding-top: 64px;
+.modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-content.has-close-button .modal-header {
+  padding-right: 48px;
 }
 
 .close-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background: #f3f4f6;
+  background: #ffffff;
   border: none;
   font-size: 16px;
   cursor: pointer;
-  color: #4b5563;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,6 +59,7 @@
 
 .close-button:hover {
   background: #e5e7eb;
+  border-radius: 8px;
   color: #1f2937;
 }
 
@@ -68,4 +81,8 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+[modal-header],
+[modal-body] {
+  border: 2px solid red; /* Debugging */
 }
