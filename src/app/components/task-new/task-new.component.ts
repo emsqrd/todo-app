@@ -4,8 +4,10 @@ import {
   EventEmitter,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { Task } from '../../models/task';
+import { DateService } from '../../services/date.service';
 
 @Component({
   selector: 'app-task-new',
@@ -22,10 +24,12 @@ export class TaskNewComponent {
   @Output() handleSaveClick = new EventEmitter<Omit<Task, 'id'>>();
   @Output() handleCancelClick = new EventEmitter<null>();
 
+  private dateService = inject(DateService);
+
   addTask(taskName: string, dueDate: string) {
     const newTask: Omit<Task, 'id'> = {
       name: taskName,
-      dueDate: new Date(dueDate),
+      dueDate: this.dateService.parseDate(dueDate),
     };
 
     this.taskNameInput.nativeElement.value = '';
