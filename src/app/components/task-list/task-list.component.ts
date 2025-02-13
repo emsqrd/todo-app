@@ -39,7 +39,10 @@ export class TaskListComponent {
 
   getTasks() {
     this.taskService.getTasks().subscribe((tasks) => {
-      this.tasks = tasks;
+      this.tasks = tasks.map((task) => ({
+        ...task,
+        dueDate: new Date(task.dueDate),
+      }));
     });
   }
 
@@ -55,6 +58,14 @@ export class TaskListComponent {
     this.showTaskDetailModal.set(false);
   }
 
+  onTaskDetailSaveClick(updatedTask: Task) {
+    this.taskService.updateTask(updatedTask).subscribe((_) => {
+      this.tasks = this.tasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      );
+      this.onTaskDetailModalClose();
+    });
+  }
   onTaskSelect(task: Task) {
     this.showTaskDetailModal.set(true);
     this.selectedTask = task;

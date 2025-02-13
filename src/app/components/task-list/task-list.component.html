@@ -41,7 +41,11 @@
       <span>Task Detail</span>
     </div>
     <div modal-body>
-      <app-task-detail [task]="selectedTask"></app-task-detail>
+      <app-task-detail
+        [task]="selectedTask"
+        (handleSaveClick)="onTaskDetailSaveClick($event)"
+        (handleCancelClick)="onTaskDetailModalClose()"
+      ></app-task-detail>
     </div>
   </app-modal>
   }

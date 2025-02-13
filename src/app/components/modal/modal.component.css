@@ -24,12 +24,13 @@
 }
 
 .modal-header {
-  padding: 16px 24px;
+  padding: 16px;
   border-bottom: 1px solid #e5e7eb;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-size: 13px;
 }
 
 .modal-body {
@@ -49,7 +50,7 @@
   height: 32px;
   background: #ffffff;
   border: none;
-  font-size: 16px;
+  font-size: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -81,8 +82,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-[modal-header],
-[modal-body] {
-  border: 2px solid red; /* Debugging */
 }
