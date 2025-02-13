@@ -4,7 +4,7 @@
   gap: 8px;
   padding: 0.75rem;
   border-bottom: solid 1px #e5e7eb;
-  cursor: grab;
+  cursor: pointer;
   transition: all 0.2s ease;
   width: 100%;
   box-sizing: border-box;

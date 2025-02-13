@@ -10,51 +10,43 @@
     </button>
   </header>
   <div class="tasks">
-    @if(tasks.length <= 0) {
+    @if (tasks.length <= 0) {
     <p class="task-list--empty">Add a task to get started</p>
     }
     <ul class="task-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
-      @for(task of tasks; track task.id) {
+      @for (task of tasks; track task.id) {
       <app-task
         [task]="task"
         (deleteTask)="handleDeleteTask($event)"
+        (selectedTask)="onTaskSelect($event)"
       ></app-task>
       }
     </ul>
   </div>
-  <dialog class="task-dialog" #addTaskDialog>
-    <div class="task-dialog__inputs">
-      <div class="task-dialog__input-group">
-        <input
-          class="task-dialog__input task-dialog__input--full"
-          type="text"
-          #taskNameInput
-          placeholder="Task name"
-          aria-label="Task name"
-        />
-      </div>
-      <div class="task-dialog__input-group">
-        <input
-          class="task-dialog__input task-dialog__input--date"
-          type="date"
-          #taskDateInput
-          aria-label="Due date"
-        />
-      </div>
+  @if (showAddTaskModal) {
+  <app-modal (close)="onNewTaskModalClose()" [showCloseButton]="false">
+    <div modal-header>
+      <span>Add Task</span>
     </div>
-    <div class="task-dialog__buttons">
-      <button
-        class="task-dialog__button task-dialog__button--primary"
-        (click)="onSaveTaskClick(taskNameInput.value, taskDateInput.value)"
-      >
-        Add Task
-      </button>
-      <button
-        class="task-dialog__button task-dialog__button--secondary"
-        (click)="onCancelDialogClick()"
-      >
-        Cancel
-      </button>
+    <div modal-body>
+      <app-task-new
+        (handleSaveClick)="onSaveTaskClick($event)"
+        (handleCancelClick)="onNewTaskModalClose()"
+      ></app-task-new>
     </div>
-  </dialog>
+  </app-modal>
+  } @if (isTaskDetailModalOpen) {
+  <app-modal (close)="onTaskDetailModalClose()" [showCloseButton]="true">
+    <div modal-header>
+      <span>Task Detail</span>
+    </div>
+    <div modal-body>
+      <app-task-detail
+        [task]="selectedTask"
+        (handleSaveClick)="onTaskDetailSaveClick($event)"
+        (handleCancelClick)="onTaskDetailModalClose()"
+      ></app-task-detail>
+    </div>
+  </app-modal>
+  }
 </section>
