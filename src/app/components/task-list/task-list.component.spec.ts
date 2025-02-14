@@ -156,4 +156,39 @@ describe('TaskListComponent', () => {
     );
     expect(component.showAddTaskModal).toBeFalse();
   }));
+
+  it('should display empty state message when there are no tasks', () => {
+    component.tasks = [];
+    fixture.detectChanges();
+    const emptyMessageEl: HTMLElement =
+      fixture.nativeElement.querySelector('.task-list--empty');
+    expect(emptyMessageEl).toBeTruthy();
+    expect(emptyMessageEl.textContent?.trim()).toBe(
+      'Add a task to get started'
+    );
+  });
+
+  it('should open add task modal when add task button is clicked', () => {
+    const addButton: HTMLElement =
+      fixture.nativeElement.querySelector('.header__button');
+    addButton.click();
+    fixture.detectChanges();
+    expect(component.showAddTaskModal).toBeTrue();
+    const modalEl: HTMLElement =
+      fixture.nativeElement.querySelector('app-modal');
+    expect(modalEl).toBeTruthy();
+  });
+
+  it('should delete a task when handleDeleteTask is called', fakeAsync(() => {
+    // Arrange
+    component.tasks = [...mockTasks];
+    // Act
+    component.handleDeleteTask(mockTasks[0].id);
+    tick();
+    // Assert
+    expect(taskService.deleteTask).toHaveBeenCalledWith(mockTasks[0].id);
+    expect(
+      component.tasks.find((task) => task.id === mockTasks[0].id)
+    ).toBeUndefined();
+  }));
 });
