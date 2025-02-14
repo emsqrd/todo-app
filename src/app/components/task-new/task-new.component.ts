@@ -32,9 +32,9 @@ export class TaskNewComponent {
       dueDate: this.dateService.parseDate(dueDate),
     };
 
+    this.handleSaveClick.emit(newTask);
     this.taskNameInput.nativeElement.value = '';
     this.taskDateInput.nativeElement.value = '';
-    this.handleSaveClick.emit(newTask);
   }
 
   cancelClick() {

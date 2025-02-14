@@ -38,10 +38,10 @@ export class TaskDetailComponent {
       name: taskName,
       dueDate: localDate,
     };
+    this.handleSaveClick.emit(newTask);
 
     this.taskNameInput.nativeElement.value = '';
     this.taskDateInput.nativeElement.value = '';
-    this.handleSaveClick.emit(newTask);
   }
 
   cancelClick() {
