@@ -10,7 +10,6 @@ import { TaskComponent } from '../task/task.component';
 import { of } from 'rxjs';
 import { Task } from '../../models/task';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
-import { By } from '@angular/platform-browser';
 import { ElementRef, NgZone } from '@angular/core';
 
 describe('TaskListComponent', () => {
@@ -29,10 +28,12 @@ describe('TaskListComponent', () => {
       'getTasks',
       'createTask',
       'deleteTask',
+      'updateTask',
     ]);
     spy.getTasks.and.returnValue(of(mockTasks));
     spy.createTask.and.returnValue(of(mockTasks[0]));
     spy.deleteTask.and.returnValue(of({}));
+    spy.updateTask.and.returnValue(of(mockTasks[0])); // default behavior
 
     await TestBed.configureTestingModule({
       imports: [TaskListComponent, TaskComponent, DragDropModule],
@@ -57,73 +58,6 @@ describe('TaskListComponent', () => {
     // Assert
     expect(taskService.getTasks).toHaveBeenCalled();
     expect(component.tasks).toEqual(mockTasks);
-  }));
-
-  // Replace the dialog test with this updated version
-  it('should open dialog when add task button is clicked', () => {
-    // Arrange
-    const addTaskButton = fixture.debugElement.query(By.css('.header__button'));
-    const dialogElement = fixture.debugElement.query(By.css('.task-dialog'));
-
-    // Act
-    addTaskButton.triggerEventHandler('click');
-    fixture.detectChanges();
-
-    // Assert
-    expect(dialogElement.nativeElement.hasAttribute('open')).toBeTrue();
-  });
-
-  // Update the cancel dialog test
-  it('should close dialog when cancel is clicked', () => {
-    // Arrange
-    component.onAddTaskClick(); // Open the dialog first
-    fixture.detectChanges();
-
-    const cancelButton = fixture.debugElement.query(
-      By.css('.task-dialog__button--secondary')
-    );
-    const dialogElement = fixture.debugElement.query(By.css('.task-dialog'));
-
-    // Act
-    cancelButton.triggerEventHandler('click');
-    fixture.detectChanges();
-
-    // Assert
-    expect(dialogElement.nativeElement.hasAttribute('open')).toBeFalse();
-  });
-
-  it('should create new task when save is clicked', fakeAsync(() => {
-    // Arrange
-    const newTask = {
-      name: 'New Task',
-      dueDate: new Date(),
-    };
-
-    taskService.createTask.and.returnValue(of({ ...newTask, id: '3' }));
-
-    // Act
-    component.onSaveTaskClick(newTask.name, newTask.dueDate.toISOString());
-    tick();
-
-    // Assert
-    expect(taskService.createTask).toHaveBeenCalledWith(newTask);
-    expect(component.tasks.length).toBe(3);
-  }));
-
-  it('should delete task when delete is triggered', fakeAsync(() => {
-    // Arrange
-    component.ngOnInit();
-    tick();
-    expect(component.tasks).toEqual(mockTasks);
-
-    // Act
-    component.handleDeleteTask('1');
-    tick();
-
-    // Assert
-    expect(taskService.deleteTask).toHaveBeenCalledWith('1');
-    expect(component.tasks.length).toBe(1);
-    expect(component.tasks[0].id).toBe('2');
   }));
 
   it('should handle drag and drop correctly', () => {
@@ -174,4 +108,87 @@ describe('TaskListComponent', () => {
       component.bodyElement.classList.contains('inheritCursors')
     ).toBeFalse();
   });
+
+  it('should open add task modal when onAddTaskClick is called', () => {
+    component.onAddTaskClick();
+    expect(component.showAddTaskModal).toBeTrue();
+  });
+
+  it('should close add task modal when onNewTaskModalClose is called', () => {
+    component.showAddTaskModal = true;
+    component.onNewTaskModalClose();
+    expect(component.showAddTaskModal).toBeFalse();
+  });
+
+  it('should open task detail modal and set selectedTask when onTaskSelect is called', () => {
+    const task = mockTasks[0];
+    component.onTaskSelect(task);
+    expect(component.selectedTask).toEqual(task);
+    expect(component.isTaskDetailModalOpen).toBeTrue();
+  });
+
+  it('should update task when onTaskDetailSaveClick is called', fakeAsync(() => {
+    const updatedTask: Task = { ...mockTasks[0], name: 'Updated Task' };
+    taskService.updateTask.and.returnValue(of(updatedTask));
+    component.tasks = [mockTasks[0]];
+    component.onTaskDetailSaveClick(updatedTask);
+    tick();
+    expect(taskService.updateTask).toHaveBeenCalledWith(updatedTask);
+    expect(component.tasks[0]).toEqual(updatedTask);
+    expect(component.isTaskDetailModalOpen).toBeFalse();
+  }));
+
+  it('should add new task when onSaveTaskClick is called', fakeAsync(() => {
+    const newTask: Omit<Task, 'id'> = { name: 'New Task', dueDate: new Date() };
+    const createdTask: Task = {
+      id: '3',
+      name: 'New Task',
+      dueDate: new Date(),
+    };
+    taskService.createTask.and.returnValue(of(createdTask));
+    const initialLength = component.tasks.length;
+    component.onSaveTaskClick(newTask);
+    tick();
+    expect(taskService.createTask).toHaveBeenCalledWith(newTask);
+    expect(component.tasks.length).toBe(initialLength + 1);
+    expect(component.tasks.find((task) => task.id === createdTask.id)).toEqual(
+      createdTask
+    );
+    expect(component.showAddTaskModal).toBeFalse();
+  }));
+
+  it('should display empty state message when there are no tasks', () => {
+    component.tasks = [];
+    fixture.detectChanges();
+    const emptyMessageEl: HTMLElement =
+      fixture.nativeElement.querySelector('.task-list--empty');
+    expect(emptyMessageEl).toBeTruthy();
+    expect(emptyMessageEl.textContent?.trim()).toBe(
+      'Add a task to get started'
+    );
+  });
+
+  it('should open add task modal when add task button is clicked', () => {
+    const addButton: HTMLElement =
+      fixture.nativeElement.querySelector('.header__button');
+    addButton.click();
+    fixture.detectChanges();
+    expect(component.showAddTaskModal).toBeTrue();
+    const modalEl: HTMLElement =
+      fixture.nativeElement.querySelector('app-modal');
+    expect(modalEl).toBeTruthy();
+  });
+
+  it('should delete a task when handleDeleteTask is called', fakeAsync(() => {
+    // Arrange
+    component.tasks = [...mockTasks];
+    // Act
+    component.handleDeleteTask(mockTasks[0].id);
+    tick();
+    // Assert
+    expect(taskService.deleteTask).toHaveBeenCalledWith(mockTasks[0].id);
+    expect(
+      component.tasks.find((task) => task.id === mockTasks[0].id)
+    ).toBeUndefined();
+  }));
 });

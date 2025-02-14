@@ -127,4 +127,19 @@ describe('TaskComponent', () => {
       deleteIcon.nativeElement.classList.contains('fa-trash-can')
     ).toBeTrue();
   });
+
+  it('should emit selectedTask event when task element is clicked', () => {
+    spyOn(component.selectedTask, 'emit');
+    const taskContent = fixture.debugElement.query(
+      By.css('.task-list-item__content')
+    );
+    taskContent.triggerEventHandler('click', null);
+    expect(component.selectedTask.emit).toHaveBeenCalledWith(mockTask);
+  });
+
+  it('should emit selectedTask event when onTaskClick is called directly', () => {
+    spyOn(component.selectedTask, 'emit');
+    component.onTaskClick();
+    expect(component.selectedTask.emit).toHaveBeenCalledWith(mockTask);
+  });
 });

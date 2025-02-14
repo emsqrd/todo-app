@@ -1,57 +1,80 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   CdkDragDrop,
   DragDropModule,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
 import { TaskComponent } from '../task/task.component';
+import { TaskNewComponent } from '../task-new/task-new.component';
 import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
+import { ModalComponent } from '../modal/modal.component';
+import { TaskDetailComponent } from '../task-detail/task-detail.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [DragDropModule, TaskComponent],
+  imports: [
+    DragDropModule,
+    ModalComponent,
+    TaskComponent,
+    TaskNewComponent,
+    TaskDetailComponent,
+  ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
 })
 export class TaskListComponent {
   private readonly taskService = inject(TaskService);
-  @ViewChild('addTaskDialog')
-  protected readonly addTaskDialog!: ElementRef<HTMLDialogElement>;
-  @ViewChild('taskNameInput')
-  protected readonly taskNameInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('taskDateInput')
-  protected readonly taskDateInput!: ElementRef<HTMLInputElement>;
+  selectedTask!: Task;
+  showTaskDetailModal = signal(false);
 
   bodyElement: HTMLElement = document.body;
+  showAddTaskModal = false;
   tasks: Task[] = [];
+
+  get isTaskDetailModalOpen() {
+    return this.showTaskDetailModal();
+  }
 
   getTasks() {
     this.taskService.getTasks().subscribe((tasks) => {
-      this.tasks = tasks;
+      this.tasks = tasks.map((task) => ({
+        ...task,
+        dueDate: new Date(task.dueDate),
+      }));
     });
   }
 
   onAddTaskClick() {
-    this.addTaskDialog.nativeElement.showModal();
+    this.showAddTaskModal = true;
   }
 
-  onCancelDialogClick() {
-    this.addTaskDialog.nativeElement.close();
+  onNewTaskModalClose() {
+    this.showAddTaskModal = false;
   }
 
-  onSaveTaskClick(name: string, date: string) {
-    const newTask: Omit<Task, 'id'> = {
-      name: name,
-      dueDate: new Date(date),
-    };
+  onTaskDetailModalClose() {
+    this.showTaskDetailModal.set(false);
+  }
 
+  onTaskDetailSaveClick(updatedTask: Task) {
+    this.taskService.updateTask(updatedTask).subscribe((_) => {
+      this.tasks = this.tasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      );
+      this.onTaskDetailModalClose();
+    });
+  }
+  onTaskSelect(task: Task) {
+    this.showTaskDetailModal.set(true);
+    this.selectedTask = task;
+  }
+
+  onSaveTaskClick(newTask: Omit<Task, 'id'>) {
     this.taskService.createTask(newTask).subscribe((createdTask) => {
       this.tasks.push(createdTask);
-      this.taskNameInput.nativeElement.value = '';
-      this.taskDateInput.nativeElement.value = '';
-      this.onCancelDialogClick();
+      this.onNewTaskModalClose();
     });
   }
 
