@@ -110,19 +110,19 @@ describe('TaskListComponent', () => {
   });
 
   it('should open add task modal when onAddTaskClick is called', () => {
-    component.onAddTaskClick();
+    component.onAddNewTaskClick();
     expect(component.showAddTaskModal).toBeTrue();
   });
 
   it('should close add task modal when onNewTaskModalClose is called', () => {
     component.showAddTaskModal = true;
-    component.onNewTaskModalClose();
+    component.handleNewTaskModalClose();
     expect(component.showAddTaskModal).toBeFalse();
   });
 
   it('should open task detail modal and set selectedTask when onTaskSelect is called', () => {
     const task = mockTasks[0];
-    component.onTaskSelect(task);
+    component.handleSelectTask(task);
     expect(component.selectedTask).toEqual(task);
     expect(component.isTaskDetailModalOpen).toBeTrue();
   });
@@ -131,7 +131,7 @@ describe('TaskListComponent', () => {
     const updatedTask: Task = { ...mockTasks[0], name: 'Updated Task' };
     taskService.updateTask.and.returnValue(of(updatedTask));
     component.tasks = [mockTasks[0]];
-    component.onTaskDetailSaveClick(updatedTask);
+    component.handleUpdateTask(updatedTask);
     tick();
     expect(taskService.updateTask).toHaveBeenCalledWith(updatedTask);
     expect(component.tasks[0]).toEqual(updatedTask);
@@ -145,7 +145,7 @@ describe('TaskListComponent', () => {
       name: 'Invalid Task',
     };
     component.tasks = [mockTasks[0]];
-    component.onTaskDetailSaveClick(updatedTask);
+    component.handleUpdateTask(updatedTask);
     tick();
     expect(taskService.updateTask).toHaveBeenCalledWith(updatedTask);
     expect(component.tasks[0]).toEqual(mockTasks[0]);
@@ -161,7 +161,7 @@ describe('TaskListComponent', () => {
     };
     taskService.createTask.and.returnValue(of(createdTask));
     const initialLength = component.tasks.length;
-    component.onSaveTaskClick(newTask);
+    component.handleAddNewTask(newTask);
     tick();
     expect(taskService.createTask).toHaveBeenCalledWith(newTask);
     expect(component.tasks.length).toBe(initialLength + 1);

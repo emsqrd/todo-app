@@ -34,7 +34,7 @@ describe('TaskDetailComponent', () => {
   });
 
   it('should emit new task on saveTask', () => {
-    spyOn(component.handleSaveClick, 'emit');
+    spyOn(component.updateTask, 'emit');
     // Simulate user input by querying the DOM
     const compiled = fixture.nativeElement as HTMLElement;
     const nameInput = compiled.querySelector(
@@ -66,14 +66,14 @@ describe('TaskDetailComponent', () => {
       dueDate: mockDateService.parseDate(newDueDate),
     };
 
-    expect(component.handleSaveClick.emit).toHaveBeenCalledWith(expectedTask);
+    expect(component.updateTask.emit).toHaveBeenCalledWith(expectedTask);
     expect(nameInput.value).toBe('');
     expect(dateInput.value).toBe('');
   });
 
   it('should emit cancel event on cancelClick', () => {
-    spyOn(component.handleCancelClick, 'emit');
+    spyOn(component.cancelUpdateTask, 'emit');
     component.cancelClick();
-    expect(component.handleCancelClick.emit).toHaveBeenCalledWith();
+    expect(component.cancelUpdateTask.emit).toHaveBeenCalledWith();
   });
 });

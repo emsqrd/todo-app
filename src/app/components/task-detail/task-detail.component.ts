@@ -25,8 +25,8 @@ export class TaskDetailComponent {
   protected readonly taskDateInput!: ElementRef<HTMLInputElement>;
 
   @Input({ required: true }) task!: Task;
-  @Output() handleSaveClick = new EventEmitter<Task>();
-  @Output() handleCancelClick = new EventEmitter<null>();
+  @Output() updateTask = new EventEmitter<Task>();
+  @Output() cancelUpdateTask = new EventEmitter<null>();
 
   private dateService = inject(DateService);
 
@@ -38,13 +38,13 @@ export class TaskDetailComponent {
       name: taskName,
       dueDate: localDate,
     };
-    this.handleSaveClick.emit(newTask);
+    this.updateTask.emit(newTask);
 
     this.taskNameInput.nativeElement.value = '';
     this.taskDateInput.nativeElement.value = '';
   }
 
   cancelClick() {
-    this.handleCancelClick.emit();
+    this.cancelUpdateTask.emit();
   }
 }
