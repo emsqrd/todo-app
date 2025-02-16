@@ -4,7 +4,7 @@
       <input
         class="task-detail__input task-detail__input--full"
         type="text"
-        formControlName="name"
+        formControlName="taskName"
         placeholder="Task name"
         aria-label="Task name"
       />
@@ -21,6 +21,7 @@
   <div class="task-detail__buttons">
     <button
       type="submit"
+      [disabled]="taskForm.invalid"
       class="task-detail__button task-detail__button--primary"
     >
       Save Task

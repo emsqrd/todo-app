@@ -29,4 +29,11 @@ export class TaskComponent {
     this.bodyElement.classList.add('inheritCursors');
     this.bodyElement.style.cursor = 'grabbing';
   }
+
+  // Getter for validating dueDate
+  get validDueDate(): Date | null {
+    if (!this.task.dueDate) return null;
+    const date = new Date(this.task.dueDate);
+    return isNaN(date.getTime()) ? null : date;
+  }
 }

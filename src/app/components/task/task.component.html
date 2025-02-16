@@ -16,7 +16,7 @@
             {{ task.name }}
           </div>
           <span class="task-list-item__due-date">
-            {{ task.dueDate | date : "MMM d" }}
+            {{ validDueDate ? (validDueDate | date : "MMM d") : "" }}
           </span>
         </div>
       </div>

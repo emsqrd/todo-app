@@ -39,10 +39,7 @@ export class TaskListComponent {
 
   getTasks() {
     this.taskService.getTasks().subscribe((tasks) => {
-      this.tasks = tasks.map((task) => ({
-        ...task,
-        dueDate: new Date(task.dueDate),
-      }));
+      this.tasks = tasks;
     });
   }
 
