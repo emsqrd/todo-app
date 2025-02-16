@@ -66,6 +66,7 @@ export class TaskListComponent {
       this.onTaskDetailModalClose();
     });
   }
+
   onTaskSelect(task: Task) {
     this.showTaskDetailModal.set(true);
     this.selectedTask = task;

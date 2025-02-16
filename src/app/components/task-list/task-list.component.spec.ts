@@ -138,6 +138,20 @@ describe('TaskListComponent', () => {
     expect(component.isTaskDetailModalOpen).toBeFalse();
   }));
 
+  it('should not update task when onTaskDetailSaveClick is called with invalid task', fakeAsync(() => {
+    const updatedTask: Task = {
+      ...mockTasks[0],
+      id: '3',
+      name: 'Invalid Task',
+    };
+    component.tasks = [mockTasks[0]];
+    component.onTaskDetailSaveClick(updatedTask);
+    tick();
+    expect(taskService.updateTask).toHaveBeenCalledWith(updatedTask);
+    expect(component.tasks[0]).toEqual(mockTasks[0]);
+    expect(component.isTaskDetailModalOpen).toBeFalse();
+  }));
+
   it('should add new task when onSaveTaskClick is called', fakeAsync(() => {
     const newTask: Omit<Task, 'id'> = { name: 'New Task', dueDate: new Date() };
     const createdTask: Task = {

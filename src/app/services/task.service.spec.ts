@@ -30,6 +30,8 @@ describe('TaskService', () => {
       return of(new HttpResponse({ body: [mockTask] }));
     } else if (req.url.endsWith('/tasks') && req.method === 'POST') {
       return of(new HttpResponse({ body: mockTask }));
+    } else if (req.url.includes('/tasks/') && req.method === 'PUT') {
+      return of(new HttpResponse({ body: mockTask }));
     } else if (req.url.includes('/tasks/') && req.method === 'DELETE') {
       return of(new HttpResponse({ body: mockTask }));
     }
@@ -91,6 +93,21 @@ describe('TaskService', () => {
       const req = httpRequests[0];
       expect(req.method).toBe('GET');
       expect(req.url).toBe(`${environment.apiUrl}/tasks`);
+    });
+  });
+
+  describe('updateTask', () => {
+    it('should update a task', () => {
+      // Act
+      service.updateTask(mockTask).subscribe((task) => {
+        // Assert
+        expect(task).toEqual(mockTask);
+      });
+
+      // Assert
+      const req = httpRequests[0];
+      expect(req.method).toBe('PUT');
+      expect(req.url).toBe(`${environment.apiUrl}/tasks/1`);
     });
   });
 
