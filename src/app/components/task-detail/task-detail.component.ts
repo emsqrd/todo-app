@@ -1,50 +1,62 @@
 import {
   Component,
-  ElementRef,
-  EventEmitter,
   Input,
   Output,
-  ViewChild,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
   inject,
 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Task } from '../../models/task';
-import { DatePipe } from '@angular/common';
 import { DateService } from '../../services/date.service';
 
 @Component({
   selector: 'app-task-detail',
   standalone: true,
-  imports: [DatePipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './task-detail.component.html',
   styleUrl: './task-detail.component.css',
 })
-export class TaskDetailComponent {
-  @ViewChild('taskNameInput')
-  protected readonly taskNameInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('taskDateInput')
-  protected readonly taskDateInput!: ElementRef<HTMLInputElement>;
-
+export class TaskDetailComponent implements OnChanges {
   @Input({ required: true }) task!: Task;
-  @Output() handleSaveClick = new EventEmitter<Task>();
-  @Output() handleCancelClick = new EventEmitter<null>();
+  @Output() updateTask = new EventEmitter<Task>();
+  @Output() cancelUpdateTask = new EventEmitter<null>();
 
   private dateService = inject(DateService);
+  private fb = inject(FormBuilder);
+  taskForm: FormGroup = this.fb.group({
+    taskName: ['', Validators.required],
+    dueDate: [null],
+  });
 
-  saveTask(taskName: string, dueDate: string) {
-    const localDate = this.dateService.parseDate(dueDate);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['task'] && this.task) {
+      this.taskForm.patchValue({
+        taskName: this.task.name,
+        dueDate: this.task.dueDate
+          ? this.dateService.formatDate(this.task.dueDate)
+          : null,
+      });
+    }
+  }
 
-    const newTask: Task = {
+  submitTask() {
+    if (this.taskForm.invalid) return;
+
+    const { taskName, dueDate } = this.taskForm.value;
+    const localDate = dueDate ? this.dateService.parseDate(dueDate) : null;
+    const updatedTask: Task = {
       id: this.task.id,
       name: taskName,
       dueDate: localDate,
     };
-    this.handleSaveClick.emit(newTask);
-
-    this.taskNameInput.nativeElement.value = '';
-    this.taskDateInput.nativeElement.value = '';
+    this.updateTask.emit(updatedTask);
+    this.taskForm.reset();
   }
 
   cancelClick() {
-    this.handleCancelClick.emit();
+    this.cancelUpdateTask.emit();
   }
 }

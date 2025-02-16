@@ -1,35 +1,37 @@
-<div class="task-detail__inputs">
-  <div class="task-detail__input-group">
-    <input
-      class="task-detail__input task-detail__input--full"
-      type="text"
-      #taskNameInput
-      placeholder="Task name"
-      aria-label="Task name"
-      [value]="task.name"
-    />
+<form [formGroup]="taskForm" (ngSubmit)="submitTask()">
+  <div class="task-detail__inputs">
+    <div class="task-detail__input-group">
+      <input
+        class="task-detail__input task-detail__input--full"
+        type="text"
+        formControlName="taskName"
+        placeholder="Task name"
+        aria-label="Task name"
+      />
+    </div>
+    <div class="task-detail__input-group">
+      <input
+        class="task-detail__input task-detail__input--date"
+        type="date"
+        formControlName="dueDate"
+        aria-label="Due date"
+      />
+    </div>
   </div>
-  <div class="task-detail__input-group">
-    <input
-      class="task-detail__input task-detail__input--date"
-      type="date"
-      #taskDateInput
-      aria-label="Due date"
-      [value]="task.dueDate | date : 'yyyy-MM-dd'"
-    />
+  <div class="task-detail__buttons">
+    <button
+      type="submit"
+      [disabled]="taskForm.invalid"
+      class="task-detail__button task-detail__button--primary"
+    >
+      Save Task
+    </button>
+    <button
+      type="button"
+      class="task-detail__button task-detail__button--secondary"
+      (click)="cancelClick()"
+    >
+      Cancel
+    </button>
   </div>
-</div>
-<div class="task-detail__buttons">
-  <button
-    class="task-detail__button task-detail__button--primary"
-    (click)="saveTask(taskNameInput.value, taskDateInput.value)"
-  >
-    Save Task
-  </button>
-  <button
-    class="task-detail__button task-detail__button--secondary"
-    (click)="cancelClick()"
-  >
-    Cancel
-  </button>
-</div>
+</form>

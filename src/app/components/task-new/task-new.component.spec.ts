@@ -22,7 +22,7 @@ describe('TaskNewComponent', () => {
   it('should emit handleSaveClick with correct task and clear inputs on add button click', () => {
     const taskName = 'Test Task';
     const taskDate = '2023-12-31';
-    spyOn(component.handleSaveClick, 'emit');
+    spyOn(component.addNewTask, 'emit');
 
     const nameInput: HTMLInputElement = fixture.nativeElement.querySelector(
       'input[placeholder="Task name"]'
@@ -42,7 +42,7 @@ describe('TaskNewComponent', () => {
     addButton.click();
     fixture.detectChanges();
 
-    expect(component.handleSaveClick.emit).toHaveBeenCalledWith({
+    expect(component.addNewTask.emit).toHaveBeenCalledWith({
       name: taskName,
       dueDate: new Date(2023, 11, 31),
     });
@@ -51,12 +51,12 @@ describe('TaskNewComponent', () => {
   });
 
   it('should emit handleCancelClick on cancel button click', () => {
-    spyOn(component.handleCancelClick, 'emit');
+    spyOn(component.cancelSave, 'emit');
     const cancelButton: HTMLButtonElement = fixture.nativeElement.querySelector(
       'button.task-new__button--secondary'
     );
     cancelButton.click();
     fixture.detectChanges();
-    expect(component.handleCancelClick.emit).toHaveBeenCalled();
+    expect(component.cancelSave.emit).toHaveBeenCalled();
   });
 });

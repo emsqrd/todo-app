@@ -10,4 +10,12 @@ export class DateService {
     const [year, month, day] = dateStr.split('-').map(Number);
     return new Date(year, month - 1, day);
   }
+
+  // Format date as yyyy-MM-dd
+  formatDate(date: Date): string {
+    if (!date) return '';
+
+    const validDate = date instanceof Date ? date : new Date(date);
+    return validDate.toISOString().substring(0, 10);
+  }
 }

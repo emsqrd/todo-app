@@ -39,42 +39,46 @@ export class TaskListComponent {
 
   getTasks() {
     this.taskService.getTasks().subscribe((tasks) => {
-      this.tasks = tasks.map((task) => ({
-        ...task,
-        dueDate: new Date(task.dueDate),
-      }));
+      this.tasks = tasks;
     });
   }
 
-  onAddTaskClick() {
+  onAddNewTaskClick() {
     this.showAddTaskModal = true;
   }
 
-  onNewTaskModalClose() {
+  handleAddNewTask(newTask: Omit<Task, 'id'>) {
+    this.taskService.createTask(newTask).subscribe((createdTask) => {
+      this.tasks.push(createdTask);
+      this.handleNewTaskModalClose();
+    });
+  }
+
+  handleNewTaskModalClose() {
     this.showAddTaskModal = false;
   }
 
-  onTaskDetailModalClose() {
+  handleSelectedTaskModalClose() {
     this.showTaskDetailModal.set(false);
   }
 
-  onTaskDetailSaveClick(updatedTask: Task) {
-    this.taskService.updateTask(updatedTask).subscribe((_) => {
-      this.tasks = this.tasks.map((task) =>
-        task.id === updatedTask.id ? updatedTask : task
-      );
-      this.onTaskDetailModalClose();
-    });
-  }
-  onTaskSelect(task: Task) {
+  handleSelectTask(task: Task) {
     this.showTaskDetailModal.set(true);
     this.selectedTask = task;
   }
 
-  onSaveTaskClick(newTask: Omit<Task, 'id'>) {
-    this.taskService.createTask(newTask).subscribe((createdTask) => {
-      this.tasks.push(createdTask);
-      this.onNewTaskModalClose();
+  handleUpdateTask(updatedTask: Task) {
+    this.taskService.updateTask(updatedTask).subscribe((_) => {
+      this.tasks = this.tasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      );
+      this.handleSelectedTaskModalClose();
+    });
+  }
+
+  handleDeleteTask(id: string) {
+    this.taskService.deleteTask(id).subscribe((_) => {
+      this.tasks = this.tasks.filter((task) => task.id !== id);
     });
   }
 
@@ -82,12 +86,6 @@ export class TaskListComponent {
     moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
     this.bodyElement.classList.remove('inheritCursors');
     this.bodyElement.style.cursor = 'unset';
-  }
-
-  handleDeleteTask(id: string) {
-    this.taskService.deleteTask(id).subscribe((_) => {
-      this.tasks = this.tasks.filter((task) => task.id !== id);
-    });
   }
 
   ngOnInit() {
