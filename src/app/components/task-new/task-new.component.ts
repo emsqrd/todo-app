@@ -24,14 +24,14 @@ export class TaskNewComponent {
 
   newTaskForm: FormGroup = this.fb.group({
     taskName: ['', Validators.required],
-    dueDate: [''],
+    dueDate: [null],
   });
 
   addTask() {
     if (this.newTaskForm.invalid) return;
 
     const { taskName, dueDate } = this.newTaskForm.value;
-    const localDate = this.dateService.parseDate(dueDate);
+    const localDate = dueDate ? this.dateService.parseDate(dueDate) : null;
 
     const newTask: Omit<Task, 'id'> = {
       name: taskName,

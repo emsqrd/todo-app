@@ -28,7 +28,7 @@ export class TaskDetailComponent implements OnChanges {
   private fb = inject(FormBuilder);
   taskForm: FormGroup = this.fb.group({
     taskName: ['', Validators.required],
-    dueDate: [''],
+    dueDate: [null],
   });
 
   ngOnChanges(changes: SimpleChanges) {
@@ -36,8 +36,8 @@ export class TaskDetailComponent implements OnChanges {
       this.taskForm.patchValue({
         taskName: this.task.name,
         dueDate: this.task.dueDate
-          ? new Date(this.task.dueDate).toISOString().substring(0, 10)
-          : '',
+          ? this.dateService.formatDate(this.task.dueDate)
+          : null,
       });
     }
   }
@@ -46,7 +46,7 @@ export class TaskDetailComponent implements OnChanges {
     if (this.taskForm.invalid) return;
 
     const { taskName, dueDate } = this.taskForm.value;
-    const localDate = this.dateService.parseDate(dueDate);
+    const localDate = dueDate ? this.dateService.parseDate(dueDate) : null;
     const updatedTask: Task = {
       id: this.task.id,
       name: taskName,
