@@ -11,22 +11,19 @@ describe('DateService', () => {
     service = TestBed.inject(DateService);
   });
 
-  it('should parse a valid date string', () => {
-    const date = service.parseDate('2023-12-31');
-    expect(date.getFullYear()).toBe(2023);
-    expect(date.getMonth()).toBe(11);
-    expect(date.getDate()).toBe(31);
-  });
-
-  it('should format a valid date into yyyy-MM-dd', () => {
-    // Using Date.UTC to prevent local timezone shifts
-    const testDate = new Date(Date.UTC(2023, 0, 1));
-    const formatted = service.formatDate(testDate);
-    expect(formatted).toBe('2023-01-01');
-  });
-
   it('should return empty string when formatting a falsy date', () => {
-    expect(service.formatDate(null as any)).toBe('');
-    expect(service.formatDate(undefined as any)).toBe('');
+    expect(service.convertToDateInput(null as any)).toBe('');
+    expect(service.convertToDateInput(undefined as any)).toBe('');
+  });
+
+  it('should convert a valid date string to ISO format', () => {
+    const validDate = '2023-01-01';
+    const expectedISO = new Date(validDate).toISOString();
+    expect(service.convertToISO(validDate)).toBe(expectedISO);
+  });
+
+  it('should convert a valid ISO string to YYYY-MM-DD format', () => {
+    const isoString = '2023-01-01T00:00:00.000Z';
+    expect(service.convertToDateInput(isoString)).toBe('2023-01-01');
   });
 });

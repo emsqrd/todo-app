@@ -10,6 +10,7 @@ import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
 import { ModalComponent } from '../modal/modal.component';
 import { TaskDetailComponent } from '../task-detail/task-detail.component';
+import { DateService } from '../../services/date.service';
 
 @Component({
   selector: 'app-task-list',
@@ -26,6 +27,8 @@ import { TaskDetailComponent } from '../task-detail/task-detail.component';
 })
 export class TaskListComponent {
   private readonly taskService = inject(TaskService);
+  private readonly dateService = inject(DateService);
+
   selectedTask!: Task;
   showTaskDetailModal = signal(false);
 

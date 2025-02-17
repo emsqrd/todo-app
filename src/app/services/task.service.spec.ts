@@ -42,12 +42,12 @@ describe('TaskService', () => {
   const mockTask: Task = {
     id: '1',
     name: 'Test Task',
-    dueDate: new Date(),
+    dueDate: '2020-01-01',
   };
 
   const mockNewTask: Omit<Task, 'id'> = {
     name: 'New Task',
-    dueDate: new Date(),
+    dueDate: '2020-01-01',
   };
 
   beforeEach(() => {

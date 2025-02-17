@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Task } from '../../models/task';
-import { DateService } from '../../services/date.service';
 import {
   FormBuilder,
   FormGroup,
@@ -19,23 +18,21 @@ export class TaskNewComponent {
   @Output() addNewTask = new EventEmitter<Omit<Task, 'id'>>();
   @Output() cancelSave = new EventEmitter<null>();
 
-  private dateService = inject(DateService);
   private fb = inject(FormBuilder);
 
   newTaskForm: FormGroup = this.fb.group({
     taskName: ['', Validators.required],
-    dueDate: [null],
+    dueDate: [''],
   });
 
   addTask() {
     if (this.newTaskForm.invalid) return;
 
     const { taskName, dueDate } = this.newTaskForm.value;
-    const localDate = dueDate ? this.dateService.parseDate(dueDate) : null;
 
     const newTask: Omit<Task, 'id'> = {
       name: taskName,
-      dueDate: localDate,
+      dueDate: dueDate,
     };
 
     this.addNewTask.emit(newTask);

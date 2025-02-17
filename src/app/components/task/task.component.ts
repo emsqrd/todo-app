@@ -21,8 +21,8 @@ export class TaskComponent {
     this.selectedTask.emit(this.task);
   }
 
-  onDeleteTaskClick(id: string) {
-    this.deleteTask.emit(id);
+  onDeleteTaskClick(taskId: string) {
+    this.deleteTask.emit(taskId);
   }
 
   onDragStarted() {

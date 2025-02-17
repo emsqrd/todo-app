@@ -18,8 +18,8 @@ describe('TaskListComponent', () => {
   let taskService: jasmine.SpyObj<TaskService>;
 
   const mockTasks: Task[] = [
-    { id: '1', name: 'Test Task 1', dueDate: new Date() },
-    { id: '2', name: 'Test Task 2', dueDate: new Date() },
+    { id: '1', name: 'Test Task 1', dueDate: '2025-01-01' },
+    { id: '2', name: 'Test Task 2', dueDate: '2025-01-01' },
   ];
 
   beforeEach(async () => {
@@ -153,11 +153,14 @@ describe('TaskListComponent', () => {
   }));
 
   it('should add new task when onSaveTaskClick is called', fakeAsync(() => {
-    const newTask: Omit<Task, 'id'> = { name: 'New Task', dueDate: new Date() };
+    const newTask: Omit<Task, 'id'> = {
+      name: 'New Task',
+      dueDate: '2024-01-01',
+    };
     const createdTask: Task = {
       id: '3',
       name: 'New Task',
-      dueDate: new Date(),
+      dueDate: '2024-01-01',
     };
     taskService.createTask.and.returnValue(of(createdTask));
     const initialLength = component.tasks.length;

@@ -45,7 +45,7 @@ describe('TaskNewComponent', () => {
 
     expect(component.addNewTask.emit).toHaveBeenCalledWith({
       name: taskName,
-      dueDate: new Date(2023, 11, 31),
+      dueDate: taskDate,
     });
   });
 
