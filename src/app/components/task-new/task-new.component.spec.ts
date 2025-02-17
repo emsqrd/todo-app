@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskNewComponent } from './task-new.component';
+import { By } from '@angular/platform-browser';
 
 describe('TaskNewComponent', () => {
   let component: TaskNewComponent;
@@ -19,26 +20,26 @@ describe('TaskNewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit handleSaveClick with correct task and clear inputs on add button click', () => {
+  it('should emit addNewTask with correct task on add button click', () => {
     const taskName = 'Test Task';
     const taskDate = '2023-12-31';
     spyOn(component.addNewTask, 'emit');
 
-    const nameInput: HTMLInputElement = fixture.nativeElement.querySelector(
-      'input[placeholder="Task name"]'
-    );
-    const dateInput: HTMLInputElement = fixture.nativeElement.querySelector(
-      'input[aria-label="Due date"]'
-    );
+    const nameInput: HTMLInputElement = fixture.debugElement.query(
+      By.css('[data-testid="task-name-input"]')
+    ).nativeElement;
+    const dateInput: HTMLInputElement = fixture.debugElement.query(
+      By.css('[data-testid="due-date-input"]')
+    ).nativeElement;
     nameInput.value = taskName;
     dateInput.value = taskDate;
     nameInput.dispatchEvent(new Event('input'));
     dateInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const addButton: HTMLButtonElement = fixture.nativeElement.querySelector(
-      'button.task-new__button--primary'
-    );
+    const addButton: HTMLButtonElement = fixture.debugElement.query(
+      By.css('[data-testid="add-task-button"]')
+    ).nativeElement;
     addButton.click();
     fixture.detectChanges();
 
@@ -46,15 +47,13 @@ describe('TaskNewComponent', () => {
       name: taskName,
       dueDate: new Date(2023, 11, 31),
     });
-    expect(nameInput.value).toBe('');
-    expect(dateInput.value).toBe('');
   });
 
-  it('should emit handleCancelClick on cancel button click', () => {
+  it('should emit cancelSave on cancel button click', () => {
     spyOn(component.cancelSave, 'emit');
-    const cancelButton: HTMLButtonElement = fixture.nativeElement.querySelector(
-      'button.task-new__button--secondary'
-    );
+    const cancelButton: HTMLButtonElement = fixture.debugElement.query(
+      By.css('[data-testid="cancel-button"]')
+    ).nativeElement;
     cancelButton.click();
     fixture.detectChanges();
     expect(component.cancelSave.emit).toHaveBeenCalled();

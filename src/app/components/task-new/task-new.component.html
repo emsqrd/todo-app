@@ -8,6 +8,7 @@
           formControlName="taskName"
           placeholder="Task name"
           aria-label="Task name"
+          data-testid="task-name-input"
         />
       </div>
       <div class="task-new__input-group">
@@ -16,6 +17,7 @@
           type="date"
           formControlName="dueDate"
           aria-label="Due date"
+          data-testid="due-date-input"
         />
       </div>
     </div>
@@ -24,6 +26,7 @@
         type="submit"
         [disabled]="newTaskForm.invalid"
         class="task-new__button task-new__button--primary"
+        data-testid="add-task-button"
       >
         Add Task
       </button>
@@ -31,6 +34,7 @@
         type="button"
         class="task-new__button task-new__button--secondary"
         (click)="cancelClick()"
+        data-testid="cancel-button"
       >
         Cancel
       </button>
