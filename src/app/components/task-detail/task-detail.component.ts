@@ -53,7 +53,6 @@ export class TaskDetailComponent implements OnChanges {
       dueDate: localDate,
     };
     this.updateTask.emit(updatedTask);
-    this.taskForm.reset();
   }
 
   cancelClick() {

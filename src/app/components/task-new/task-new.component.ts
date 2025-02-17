@@ -39,7 +39,6 @@ export class TaskNewComponent {
     };
 
     this.addNewTask.emit(newTask);
-    this.newTaskForm.reset();
   }
 
   cancelClick() {
