@@ -1,9 +1,14 @@
-<li class="task-list-item" cdkDrag (cdkDragStarted)="onDragStarted()">
+<li
+  class="task-list-item"
+  cdkDrag
+  (cdkDragStarted)="onDragStarted()"
+  (click)="onTaskClick()"
+>
   <div class="task-list-item-placeholder" *cdkDragPlaceholder></div>
   <div class="task-list-item__drag-handle">
     <i class="fa-solid fa-grip-vertical"></i>
   </div>
-  <div class="task-list-item__content" (click)="onTaskClick()">
+  <div class="task-list-item__content">
     <div class="task-list-item__wrapper">
       <div class="task-list-item__checkbox-wrapper">
         <input
@@ -24,7 +29,7 @@
   </div>
   <button
     class="task-list-item__delete"
-    (click)="onDeleteTaskClick(task.id)"
+    (click)="onDeleteTaskClick(task.id); $event.stopPropagation()"
     aria-label="Delete task"
   >
     <i class="fa-solid fa-trash-can fa-lg" style="color: #ef4444"></i>

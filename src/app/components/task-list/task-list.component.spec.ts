@@ -18,8 +18,8 @@ describe('TaskListComponent', () => {
   let taskService: jasmine.SpyObj<TaskService>;
 
   const mockTasks: Task[] = [
-    { id: '1', name: 'Test Task 1', dueDate: new Date() },
-    { id: '2', name: 'Test Task 2', dueDate: new Date() },
+    { id: '1', name: 'Test Task 1', dueDate: '2025-01-01' },
+    { id: '2', name: 'Test Task 2', dueDate: '2025-01-01' },
   ];
 
   beforeEach(async () => {
@@ -110,19 +110,19 @@ describe('TaskListComponent', () => {
   });
 
   it('should open add task modal when onAddTaskClick is called', () => {
-    component.onAddTaskClick();
+    component.onAddNewTaskClick();
     expect(component.showAddTaskModal).toBeTrue();
   });
 
   it('should close add task modal when onNewTaskModalClose is called', () => {
     component.showAddTaskModal = true;
-    component.onNewTaskModalClose();
+    component.handleNewTaskModalClose();
     expect(component.showAddTaskModal).toBeFalse();
   });
 
   it('should open task detail modal and set selectedTask when onTaskSelect is called', () => {
     const task = mockTasks[0];
-    component.onTaskSelect(task);
+    component.handleSelectTask(task);
     expect(component.selectedTask).toEqual(task);
     expect(component.isTaskDetailModalOpen).toBeTrue();
   });
@@ -131,23 +131,40 @@ describe('TaskListComponent', () => {
     const updatedTask: Task = { ...mockTasks[0], name: 'Updated Task' };
     taskService.updateTask.and.returnValue(of(updatedTask));
     component.tasks = [mockTasks[0]];
-    component.onTaskDetailSaveClick(updatedTask);
+    component.handleUpdateTask(updatedTask);
     tick();
     expect(taskService.updateTask).toHaveBeenCalledWith(updatedTask);
     expect(component.tasks[0]).toEqual(updatedTask);
     expect(component.isTaskDetailModalOpen).toBeFalse();
   }));
 
+  it('should not update task when onTaskDetailSaveClick is called with invalid task', fakeAsync(() => {
+    const updatedTask: Task = {
+      ...mockTasks[0],
+      id: '3',
+      name: 'Invalid Task',
+    };
+    component.tasks = [mockTasks[0]];
+    component.handleUpdateTask(updatedTask);
+    tick();
+    expect(taskService.updateTask).toHaveBeenCalledWith(updatedTask);
+    expect(component.tasks[0]).toEqual(mockTasks[0]);
+    expect(component.isTaskDetailModalOpen).toBeFalse();
+  }));
+
   it('should add new task when onSaveTaskClick is called', fakeAsync(() => {
-    const newTask: Omit<Task, 'id'> = { name: 'New Task', dueDate: new Date() };
+    const newTask: Omit<Task, 'id'> = {
+      name: 'New Task',
+      dueDate: '2024-01-01',
+    };
     const createdTask: Task = {
       id: '3',
       name: 'New Task',
-      dueDate: new Date(),
+      dueDate: '2024-01-01',
     };
     taskService.createTask.and.returnValue(of(createdTask));
     const initialLength = component.tasks.length;
-    component.onSaveTaskClick(newTask);
+    component.handleAddNewTask(newTask);
     tick();
     expect(taskService.createTask).toHaveBeenCalledWith(newTask);
     expect(component.tasks.length).toBe(initialLength + 1);

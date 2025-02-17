@@ -16,7 +16,7 @@ describe('TaskComponent', () => {
   const mockTask = {
     id: '1',
     name: 'Test Task',
-    dueDate: new Date('2024-01-01'),
+    dueDate: '2024-01-01',
   };
 
   beforeEach(async () => {
@@ -69,11 +69,13 @@ describe('TaskComponent', () => {
     const deleteButton = fixture.debugElement.query(
       By.css('.task-list-item__delete')
     );
+    const event = { stopPropagation: jasmine.createSpy('stopPropagation') };
 
     // Act
-    deleteButton.triggerEventHandler('click');
+    deleteButton.triggerEventHandler('click', event);
 
     // Assert
+    expect(event.stopPropagation).toHaveBeenCalled();
     expect(component.deleteTask.emit).toHaveBeenCalledWith(mockTask.id);
   });
 
@@ -130,9 +132,7 @@ describe('TaskComponent', () => {
 
   it('should emit selectedTask event when task element is clicked', () => {
     spyOn(component.selectedTask, 'emit');
-    const taskContent = fixture.debugElement.query(
-      By.css('.task-list-item__content')
-    );
+    const taskContent = fixture.debugElement.query(By.css('.task-list-item'));
     taskContent.triggerEventHandler('click', null);
     expect(component.selectedTask.emit).toHaveBeenCalledWith(mockTask);
   });

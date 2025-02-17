@@ -4,10 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class DateService {
-  // Parse date to strip out local time zone setting
-  parseDate(dateStr: string): Date {
-    // Assume format yyyy-MM-dd
-    const [year, month, day] = dateStr.split('-').map(Number);
-    return new Date(year, month - 1, day);
+  // Convert date string to ISO format for API
+  convertToISO(dateStr: string | null): string | null {
+    return dateStr ? new Date(dateStr).toISOString() : null;
+  }
+
+  // Convert to YYYY-MM-DD format for inputs
+  convertToDateInput(isoString: string | null): string {
+    return isoString ? new Date(isoString).toISOString().split('T')[0] : '';
   }
 }

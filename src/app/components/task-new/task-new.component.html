@@ -1,35 +1,43 @@
-<div class="task-new">
-  <div class="task-new__inputs">
-    <div class="task-new__input-group">
-      <input
-        class="task-new__input task-new__input--full"
-        type="text"
-        #taskNameInput
-        placeholder="Task name"
-        aria-label="Task name"
-      />
+<form [formGroup]="newTaskForm" (ngSubmit)="addTask()">
+  <div class="task-new">
+    <div class="task-new__inputs">
+      <div class="task-new__input-group">
+        <input
+          class="task-new__input task-new__input--full"
+          type="text"
+          formControlName="taskName"
+          placeholder="Task name"
+          aria-label="Task name"
+          data-testid="task-name-input"
+        />
+      </div>
+      <div class="task-new__input-group">
+        <input
+          class="task-new__input task-new__input--date"
+          type="date"
+          formControlName="dueDate"
+          aria-label="Due date"
+          data-testid="due-date-input"
+        />
+      </div>
     </div>
-    <div class="task-new__input-group">
-      <input
-        class="task-new__input task-new__input--date"
-        type="date"
-        #taskDateInput
-        aria-label="Due date"
-      />
+    <div class="task-new__buttons">
+      <button
+        type="submit"
+        [disabled]="newTaskForm.invalid"
+        class="task-new__button task-new__button--primary"
+        data-testid="add-task-button"
+      >
+        Add Task
+      </button>
+      <button
+        type="button"
+        class="task-new__button task-new__button--secondary"
+        (click)="cancelClick()"
+        data-testid="cancel-button"
+      >
+        Cancel
+      </button>
     </div>
   </div>
-  <div class="task-new__buttons">
-    <button
-      class="task-new__button task-new__button--primary"
-      (click)="addTask(taskNameInput.value, taskDateInput.value)"
-    >
-      Add Task
-    </button>
-    <button
-      class="task-new__button task-new__button--secondary"
-      (click)="cancelClick()"
-    >
-      Cancel
-    </button>
-  </div>
-</div>
+</form>

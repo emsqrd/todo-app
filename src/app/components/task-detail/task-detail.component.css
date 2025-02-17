@@ -88,6 +88,20 @@
   transform: translateY(0);
 }
 
+.task-detail__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Optionally, if you want to change the background on primary or secondary buttons when disabled */
+.task-detail__button--primary:disabled {
+  background-color: #a5b4fc; /* lighter blue */
+}
+
+.task-detail__button--secondary:disabled {
+  background-color: #d1d5db; /* lighter grey */
+}
+
 .task-detail__input-group {
   margin-bottom: 1rem;
 }
