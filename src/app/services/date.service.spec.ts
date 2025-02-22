@@ -22,6 +22,10 @@ describe('DateService', () => {
     expect(service.convertToISO(validDate)).toBe(expectedISO);
   });
 
+  it('should return null when converting a null date string', () => {
+    expect(service.convertToISO(null)).toBeNull();
+  });
+
   it('should convert a valid ISO string to YYYY-MM-DD format', () => {
     const isoString = '2023-01-01T00:00:00.000Z';
     expect(service.convertToDateInput(isoString)).toBe('2023-01-01');

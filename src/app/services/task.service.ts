@@ -14,24 +14,29 @@ export class TaskService {
 
   private baseUrl = environment.apiUrl;
 
+  // Convert task due date to a format that can be displayed in the UI
+  private mapTaskDates(task: Task): Task {
+    return {
+      ...task,
+      dueDate: this.dateService.convertToDateInput(task.dueDate),
+    };
+  }
+
   createTask(task: Omit<Task, 'id'>): Observable<Task> {
     const taskToCreate = {
       ...task,
       dueDate: this.dateService.convertToISO(task.dueDate),
     };
 
-    return this.http.post<Task>(`${this.baseUrl}/tasks`, taskToCreate);
+    return this.http
+      .post<Task>(`${this.baseUrl}/tasks`, taskToCreate)
+      .pipe(map((createdTask) => this.mapTaskDates(createdTask)));
   }
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.baseUrl}/tasks`).pipe(
-      map((tasks) =>
-        tasks.map((task) => ({
-          ...task,
-          dueDate: this.dateService.convertToDateInput(task.dueDate),
-        }))
-      )
-    );
+    return this.http
+      .get<Task[]>(`${this.baseUrl}/tasks`)
+      .pipe(map((tasks) => tasks.map((task) => this.mapTaskDates(task))));
   }
 
   updateTask(task: Task): Observable<Task> {
