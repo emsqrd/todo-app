@@ -14,10 +14,17 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
+import { DateService } from '../../app/services/date.service';
 
 describe('TaskService', () => {
   let service: TaskService;
   let httpRequests: HttpRequest<any>[] = [];
+
+  // Stub for DateService
+  const stubDateService = {
+    convertToDateInput: (date: string) => `converted-${date}`,
+    convertToISO: (date: string) => `iso-${date}`,
+  };
 
   const testInterceptor: HttpInterceptorFn = (
     req: HttpRequest<any>,
@@ -50,11 +57,18 @@ describe('TaskService', () => {
     dueDate: '2020-01-01',
   };
 
+  // Expected task for methods that apply date conversion
+  const expectedConvertedTask: Task = {
+    ...mockTask,
+    dueDate: stubDateService.convertToDateInput(mockTask.dueDate),
+  };
+
   beforeEach(() => {
     httpRequests = [];
     TestBed.configureTestingModule({
       providers: [
         TaskService,
+        { provide: DateService, useValue: stubDateService },
         provideHttpClient(withInterceptors([testInterceptor])),
       ],
     });
@@ -67,11 +81,11 @@ describe('TaskService', () => {
   });
 
   describe('createTask', () => {
-    it('should create a new task', () => {
+    it('should create a new task with formatted dueDate', () => {
       // Act
       service.createTask(mockNewTask).subscribe((task) => {
         // Assert
-        expect(task).toEqual(mockTask);
+        expect(task).toEqual(expectedConvertedTask);
       });
 
       // Assert
@@ -82,11 +96,11 @@ describe('TaskService', () => {
   });
 
   describe('getTasks', () => {
-    it('should return all tasks', () => {
+    it('should return all tasks with formatted dueDate', () => {
       // Act
       service.getTasks().subscribe((tasks) => {
         // Assert
-        expect(tasks).toEqual([mockTask]);
+        expect(tasks).toEqual([expectedConvertedTask]);
       });
 
       // Assert
@@ -146,6 +160,7 @@ describe('TaskService', () => {
       TestBed.configureTestingModule({
         providers: [
           TaskService,
+          { provide: DateService, useValue: stubDateService },
           provideHttpClient(withInterceptors([errorInterceptor])),
         ],
       });
