@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, delay } from 'rxjs';
 import { Task } from '../models/task';
 import { environment } from '../../environments/environment';
 import { DateService } from './date.service';
@@ -34,9 +34,10 @@ export class TaskService {
   }
 
   getTasks(): Observable<Task[]> {
-    return this.http
-      .get<Task[]>(`${this.baseUrl}/tasks`)
-      .pipe(map((tasks) => tasks.map((task) => this.mapTaskDates(task))));
+    return this.http.get<Task[]>(`${this.baseUrl}/tasks`).pipe(
+      delay(1000),
+      map((tasks) => tasks.map((task) => this.mapTaskDates(task)))
+    );
   }
 
   updateTask(task: Task): Observable<Task> {
