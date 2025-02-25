@@ -34,10 +34,9 @@ export class TaskService {
   }
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.baseUrl}/tasks`).pipe(
-      delay(1000),
-      map((tasks) => tasks.map((task) => this.mapTaskDates(task)))
-    );
+    return this.http
+      .get<Task[]>(`${this.baseUrl}/tasks`)
+      .pipe(map((tasks) => tasks.map((task) => this.mapTaskDates(task))));
   }
 
   updateTask(task: Task): Observable<Task> {
