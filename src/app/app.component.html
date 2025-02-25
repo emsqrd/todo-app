@@ -1,5 +1,8 @@
 <main class="main">
-  <app-task-list></app-task-list>
+  @if (loadingStore.isLoading()) {
+  <app-loader />
+  }
+  <app-task-list />
 </main>
 
 <router-outlet />
