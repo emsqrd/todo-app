@@ -1,16 +1,16 @@
-import { Component, inject, signal } from '@angular/core';
 import {
   CdkDragDrop,
   DragDropModule,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-import { TaskComponent } from '../task/task.component';
-import { TaskNewComponent } from '../task-new/task-new.component';
+import { Component, inject, signal } from '@angular/core';
 import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
 import { ModalComponent } from '../modal/modal.component';
 import { TaskDetailComponent } from '../task-detail/task-detail.component';
+import { TaskNewComponent } from '../task-new/task-new.component';
 import { TaskSkeletonComponent } from '../task-skeleton/task-skeleton.component';
+import { TaskComponent } from '../task/task.component';
 
 @Component({
   selector: 'app-task-list',

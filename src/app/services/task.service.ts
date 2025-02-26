@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, finalize, map, Observable, throwError } from 'rxjs';
-import { Task } from '../models/task';
 import { environment } from '../../environments/environment';
-import { DateService } from './date.service';
-import { LoadingService } from './loading.service';
+import { Task } from '../models/task';
 import { LoadingStore } from '../stores/loading.store';
+import { DateService } from './date.service';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +40,6 @@ export class TaskService {
         return throwError(() => error);
       }),
       finalize(() => {
-        console.debug('Finalizing createTask');
         this.loadingStore.stopLoading(requestId);
       })
     );
@@ -58,7 +56,6 @@ export class TaskService {
         return throwError(() => error);
       }),
       finalize(() => {
-        console.debug('Finalizing getTasks');
         this.loadingStore.stopLoading(requestId);
       })
     );
@@ -81,7 +78,6 @@ export class TaskService {
           return throwError(() => error);
         }),
         finalize(() => {
-          console.debug('Finalizing updateTask');
           this.loadingStore.stopLoading(requestId);
         })
       );
@@ -97,7 +93,6 @@ export class TaskService {
         return throwError(() => error);
       }),
       finalize(() => {
-        console.debug('Finalizing deleteTask');
         this.loadingStore.stopLoading(requestId);
       })
     );
