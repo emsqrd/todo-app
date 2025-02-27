@@ -9,7 +9,6 @@ import { TaskService } from '../../services/task.service';
 import { ModalComponent } from '../modal/modal.component';
 import { TaskDetailComponent } from '../task-detail/task-detail.component';
 import { TaskNewComponent } from '../task-new/task-new.component';
-import { TaskSkeletonComponent } from '../task-skeleton/task-skeleton.component';
 import { TaskComponent } from '../task/task.component';
 
 @Component({
@@ -21,7 +20,6 @@ import { TaskComponent } from '../task/task.component';
     TaskComponent,
     TaskNewComponent,
     TaskDetailComponent,
-    TaskSkeletonComponent,
   ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
@@ -35,20 +33,14 @@ export class TaskListComponent {
   bodyElement: HTMLElement = document.body;
   showAddTaskModal = false;
   tasks: Task[] = [];
-  loading = signal(true);
 
   get isTaskDetailModalOpen() {
     return this.showTaskDetailModal();
   }
 
   getTasks() {
-    this.loading.set(true);
-    this.taskService.getTasks().subscribe({
-      next: (tasks) => {
-        this.tasks = tasks;
-        this.loading.set(false);
-      },
-      error: () => this.loading.set(false),
+    this.taskService.getTasks().subscribe((tasks) => {
+      this.tasks = tasks;
     });
   }
 

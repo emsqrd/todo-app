@@ -10,9 +10,7 @@
     </button>
   </header>
   <div class="tasks">
-    @if (loading()) {
-    <app-task-skeleton />
-    } @else { @if (tasks.length <= 0) {
+    @if (tasks.length <= 0) {
     <p class="task-list--empty">Add a task to get started</p>
     } @else {
     <ul class="task-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
@@ -24,7 +22,7 @@
       />
       }
     </ul>
-    } }
+    }
   </div>
   @if (showAddTaskModal) {
   <app-modal (close)="handleNewTaskModalClose()" [showCloseButton]="false">
