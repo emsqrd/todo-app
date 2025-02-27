@@ -12,16 +12,17 @@
   <div class="tasks">
     @if (tasks.length <= 0) {
     <p class="task-list--empty">Add a task to get started</p>
-    }
+    } @else {
     <ul class="task-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
       @for (task of tasks; track task.id) {
       <app-task
         [task]="task"
         (deleteTask)="handleDeleteTask($event)"
         (selectedTask)="handleSelectTask($event)"
-      ></app-task>
+      />
       }
     </ul>
+    }
   </div>
   @if (showAddTaskModal) {
   <app-modal (close)="handleNewTaskModalClose()" [showCloseButton]="false">
