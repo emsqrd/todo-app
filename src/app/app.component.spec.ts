@@ -1,25 +1,19 @@
-import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { AppComponent } from './app.component';
 import { TaskService } from './services/task.service';
 import { LoadingStore } from './stores/loading.store';
+import { MockLoadingStore } from './testing/mock-loading-store';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let loadingStore: jasmine.SpyObj<LoadingStore>;
+  let loadingStore: MockLoadingStore;
   let taskService: jasmine.SpyObj<TaskService>;
 
   beforeEach(async () => {
-    loadingStore = jasmine.createSpyObj(
-      'LoadingStore',
-      ['startLoading', 'stopLoading'],
-      {
-        isLoading: signal(false),
-      }
-    );
+    loadingStore = new MockLoadingStore();
 
     taskService = jasmine.createSpyObj('TaskService', ['getTasks']);
     taskService.getTasks.and.returnValue(of([]));
@@ -48,7 +42,7 @@ describe('AppComponent', () => {
 
   it('should show loader when loading state is true', () => {
     // Arrange
-    (loadingStore.isLoading as any).set(true);
+    loadingStore.setIsLoading(true);
 
     // Act
     fixture.detectChanges();
@@ -60,7 +54,7 @@ describe('AppComponent', () => {
 
   it('should hide loader when loading state is false', () => {
     // Arrange
-    (loadingStore.isLoading as any).set(false);
+    loadingStore.setIsLoading(false);
 
     // Act
     fixture.detectChanges();
