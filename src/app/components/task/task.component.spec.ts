@@ -1,11 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TaskComponent } from './task.component';
-import { By } from '@angular/platform-browser';
-import { DatePipe } from '@angular/common';
-import { LOCALE_ID } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { registerLocaleData } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import localeEn from '@angular/common/locales/en';
+import { LOCALE_ID } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { TaskComponent } from './task.component';
 
 registerLocaleData(localeEn);
 
@@ -16,6 +15,7 @@ describe('TaskComponent', () => {
   const mockTask = {
     id: '1',
     name: 'Test Task',
+    description: 'Test description',
     dueDate: '2024-01-01',
   };
 

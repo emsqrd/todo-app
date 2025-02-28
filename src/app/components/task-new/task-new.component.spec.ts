@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TaskNewComponent } from './task-new.component';
 import { By } from '@angular/platform-browser';
+import { TaskNewComponent } from './task-new.component';
 
 describe('TaskNewComponent', () => {
   let component: TaskNewComponent;
@@ -22,39 +22,56 @@ describe('TaskNewComponent', () => {
 
   describe('addTask', () => {
     it('should emit addNewTask with correct task on add button click', () => {
-      const taskName = 'Test Task';
-      const taskDate = '2023-12-31';
+      const name = 'Test Task';
+      const description = 'Test description';
+      const dueDate = '2023-12-31';
+
       spyOn(component.addNewTask, 'emit');
 
       const nameInput: HTMLInputElement = fixture.debugElement.query(
         By.css('[data-testid="task-name-input"]')
       ).nativeElement;
+
+      const descriptionInput: HTMLInputElement = fixture.debugElement.query(
+        By.css('[data-testid="task-description-input"]')
+      ).nativeElement;
+
       const dateInput: HTMLInputElement = fixture.debugElement.query(
         By.css('[data-testid="due-date-input"]')
       ).nativeElement;
-      nameInput.value = taskName;
-      dateInput.value = taskDate;
+
+      nameInput.value = name;
+      descriptionInput.value = description;
+      dateInput.value = dueDate;
+
       nameInput.dispatchEvent(new Event('input'));
+      descriptionInput.dispatchEvent(new Event('input'));
       dateInput.dispatchEvent(new Event('input'));
+
       fixture.detectChanges();
 
       const addButton: HTMLButtonElement = fixture.debugElement.query(
         By.css('[data-testid="add-task-button"]')
       ).nativeElement;
+
       addButton.click();
+
       fixture.detectChanges();
 
       expect(component.addNewTask.emit).toHaveBeenCalledWith({
-        name: taskName,
-        dueDate: taskDate,
+        name: name,
+        description: description,
+        dueDate: dueDate,
       });
     });
 
     it('should not emit addNewTask on add button click if form is invalid', () => {
       spyOn(component.addNewTask, 'emit');
+
       const addButton: HTMLButtonElement = fixture.debugElement.query(
         By.css('[data-testid="add-task-button"]')
       ).nativeElement;
+
       addButton.click();
       fixture.detectChanges();
       expect(component.addNewTask.emit).not.toHaveBeenCalled();
@@ -63,7 +80,7 @@ describe('TaskNewComponent', () => {
     it('should not emit addNewTask if form is invalid when addTask() is called', () => {
       spyOn(component.addNewTask, 'emit');
       // Ensure the form is invalid
-      component.newTaskForm.controls['taskName'].setValue('');
+      component.newTaskForm.controls['name'].setValue('');
 
       component.addTask();
       expect(component.addNewTask.emit).not.toHaveBeenCalled();
