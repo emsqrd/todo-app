@@ -4,10 +4,18 @@
       <input
         class="task-detail__input task-detail__input--full"
         type="text"
-        formControlName="taskName"
+        formControlName="name"
         placeholder="Task name"
         aria-label="Task name"
       />
+    </div>
+    <div class="task-detail__input-group">
+      <textarea
+        class="task-detail__input task-detail__input--full"
+        placeholder="Description"
+        formControlName="description"
+        aria-label="Task description"
+      ></textarea>
     </div>
     <div class="task-detail__input-group">
       <input

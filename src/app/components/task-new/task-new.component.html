@@ -5,11 +5,19 @@
         <input
           class="task-new__input task-new__input--full"
           type="text"
-          formControlName="taskName"
+          formControlName="name"
           placeholder="Task name"
           aria-label="Task name"
           data-testid="task-name-input"
         />
+      </div>
+      <div class="task-new__input-group">
+        <textarea
+          class="task-new__input task-new__input--full"
+          placeholder="Description"
+          formControlName="description"
+          aria-label="Task description"
+        ></textarea>
       </div>
       <div class="task-new__input-group">
         <input
