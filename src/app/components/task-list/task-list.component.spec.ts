@@ -1,16 +1,16 @@
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { ElementRef, NgZone } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { TaskListComponent } from './task-list.component';
-import { TaskService } from '../../services/task.service';
-import { TaskComponent } from '../task/task.component';
 import { of } from 'rxjs';
 import { Task } from '../../models/task';
-import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
-import { ElementRef, NgZone } from '@angular/core';
+import { TaskService } from '../../services/task.service';
+import { TaskComponent } from '../task/task.component';
+import { TaskListComponent } from './task-list.component';
 
 describe('TaskListComponent', () => {
   let component: TaskListComponent;
@@ -18,8 +18,18 @@ describe('TaskListComponent', () => {
   let taskService: jasmine.SpyObj<TaskService>;
 
   const mockTasks: Task[] = [
-    { id: '1', name: 'Test Task 1', dueDate: '2025-01-01' },
-    { id: '2', name: 'Test Task 2', dueDate: '2025-01-01' },
+    {
+      id: '1',
+      name: 'Test Task 1',
+      description: 'Test task 1 description',
+      dueDate: '2025-01-01',
+    },
+    {
+      id: '2',
+      name: 'Test Task 2',
+      description: 'Test task 2 description',
+      dueDate: '2025-01-01',
+    },
   ];
 
   beforeEach(async () => {
@@ -155,13 +165,17 @@ describe('TaskListComponent', () => {
   it('should add new task when onSaveTaskClick is called', fakeAsync(() => {
     const newTask: Omit<Task, 'id'> = {
       name: 'New Task',
+      description: 'New description',
       dueDate: '2024-01-01',
     };
+
     const createdTask: Task = {
       id: '3',
       name: 'New Task',
+      description: 'New description',
       dueDate: '2024-01-01',
     };
+
     taskService.createTask.and.returnValue(of(createdTask));
     const initialLength = component.tasks.length;
     component.handleAddNewTask(newTask);

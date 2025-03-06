@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
-import { Task } from '../../models/task';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Task } from '../../models/task';
 
 @Component({
   selector: 'app-task-new',
@@ -21,17 +21,19 @@ export class TaskNewComponent {
   private fb = inject(FormBuilder);
 
   newTaskForm: FormGroup = this.fb.group({
-    taskName: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
     dueDate: [''],
   });
 
   addTask() {
     if (this.newTaskForm.invalid) return;
 
-    const { taskName, dueDate } = this.newTaskForm.value;
+    const { name, description, dueDate } = this.newTaskForm.value;
 
     const newTask: Omit<Task, 'id'> = {
-      name: taskName,
+      name: name,
+      description: description,
       dueDate: dueDate,
     };
 

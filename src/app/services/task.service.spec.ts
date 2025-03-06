@@ -19,11 +19,13 @@ describe('TaskService', () => {
   const mockTask: Task = {
     id: '1',
     name: 'Test Task',
+    description: 'Test description',
     dueDate: '2020-01-01',
   };
 
   const mockNewTask: Omit<Task, 'id'> = {
     name: 'New Task',
+    description: 'New description',
     dueDate: '2020-01-01',
   };
 

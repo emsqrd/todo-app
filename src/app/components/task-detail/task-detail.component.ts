@@ -1,14 +1,18 @@
 import {
   Component,
-  Input,
-  Output,
   EventEmitter,
+  Input,
   OnChanges,
+  Output,
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Task } from '../../models/task';
 import { DateService } from '../../services/date.service';
 
@@ -27,14 +31,16 @@ export class TaskDetailComponent implements OnChanges {
   private dateService = inject(DateService);
   private fb = inject(FormBuilder);
   taskForm: FormGroup = this.fb.group({
-    taskName: ['', Validators.required],
+    name: ['', Validators.required],
+    description: [''],
     dueDate: [''],
   });
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['task'] && this.task) {
       this.taskForm.patchValue({
-        taskName: this.task.name,
+        name: this.task.name,
+        description: this.task.description,
         dueDate: this.dateService.convertToDateInput(this.task.dueDate),
       });
     }
@@ -43,11 +49,12 @@ export class TaskDetailComponent implements OnChanges {
   submitTask() {
     if (this.taskForm.invalid) return;
 
-    const { taskName, dueDate } = this.taskForm.value;
+    const { name, description, dueDate } = this.taskForm.value;
 
     const updatedTask: Task = {
       ...this.task,
-      name: taskName,
+      name: name,
+      description: description,
       dueDate: dueDate,
     };
     this.updateTask.emit(updatedTask);

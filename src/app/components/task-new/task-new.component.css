@@ -40,6 +40,10 @@
   width: 100%;
 }
 
+textarea.task-new__input--full {
+  height: 20vh;
+}
+
 .task-new__buttons {
   display: flex;
   gap: 12px;

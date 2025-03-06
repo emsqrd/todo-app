@@ -8,6 +8,7 @@ describe('TaskDetailComponent', () => {
   const dummyTask = {
     id: '1',
     name: 'Test Task',
+    description: 'Test description',
     dueDate: '2024-01-01',
   };
 
@@ -40,19 +41,24 @@ describe('TaskDetailComponent', () => {
   });
 
   it('should patch form values when task input changes', () => {
-    expect(component.taskForm.value.taskName).toBe(dummyTask.name);
+    expect(component.taskForm.value.name).toBe(dummyTask.name);
+    expect(component.taskForm.value.description).toBe(dummyTask.description);
     expect(component.taskForm.value.dueDate).toBe(dummyTask.dueDate);
   });
 
-  it('should emit new task on form submit', () => {
+  it('should emit updated task on form submit', () => {
     spyOn(component.updateTask, 'emit');
-    const newTaskName = 'Updated Task';
-    const newDueDate = '2020-03-03';
+
+    const updatedName = 'Updated Task';
+    const updatedDescription = 'Updated description';
+    const updatedDueDate = '2020-03-03';
 
     component.taskForm.setValue({
-      taskName: newTaskName,
-      dueDate: newDueDate,
+      name: updatedName,
+      description: updatedDescription,
+      dueDate: updatedDueDate,
     });
+
     fixture.detectChanges();
 
     component.submitTask();
@@ -60,24 +66,45 @@ describe('TaskDetailComponent', () => {
 
     const expectedTask = {
       id: dummyTask.id,
-      name: newTaskName,
-      dueDate: newDueDate,
+      name: updatedName,
+      description: updatedDescription,
+      dueDate: updatedDueDate,
     };
 
     expect(component.updateTask.emit).toHaveBeenCalledWith(expectedTask);
   });
 
-  it('should not emit updateTask when form is invalid', () => {
+  it('should not emit updateTask when form validation fails', () => {
     spyOn(component.updateTask, 'emit');
-    component.taskForm.setValue({ taskName: '', dueDate: '' });
+
+    component.taskForm.setErrors({ invalid: true });
+    component.taskForm.markAllAsTouched();
+
     fixture.detectChanges();
+
     component.submitTask();
+
+    expect(component.updateTask.emit).not.toHaveBeenCalled();
+  });
+
+  it('should not emit updateTask when name is empty', () => {
+    spyOn(component.updateTask, 'emit');
+
+    const nameInput = component.taskForm.get('name');
+    nameInput?.setErrors({ required: true });
+    nameInput?.markAsTouched();
+
+    fixture.detectChanges();
+
+    component.submitTask();
+
     expect(component.updateTask.emit).not.toHaveBeenCalled();
   });
 
   it('should reset and mark form as pristine after submission', () => {
     component.taskForm.setValue({
-      taskName: 'New Name',
+      name: 'New Name',
+      description: 'New description',
       dueDate: '2020-05-05',
     });
     fixture.detectChanges();
@@ -97,6 +124,7 @@ describe('TaskDetailComponent', () => {
     const newTask = {
       id: '2',
       name: 'Another Task',
+      description: 'Another description',
       dueDate: '2021-12-12',
     };
 
@@ -111,7 +139,7 @@ describe('TaskDetailComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(component.taskForm.value.taskName).toBe(newTask.name);
+    expect(component.taskForm.value.name).toBe(newTask.name);
     expect(component.taskForm.value.dueDate).toBe(
       new Date(newTask.dueDate).toISOString().substring(0, 10)
     );
@@ -129,7 +157,7 @@ describe('TaskDetailComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(component.taskForm.value.taskName).toBe('Test Task');
+    expect(component.taskForm.value.name).toBe('Test Task');
     expect(component.taskForm.value.dueDate).toBe('2024-01-01');
   });
 
@@ -137,6 +165,7 @@ describe('TaskDetailComponent', () => {
     const taskWithoutDueDate = {
       id: '3',
       name: 'Task with no due date',
+      description: 'No due date',
       dueDate: null as any,
     };
 
@@ -151,7 +180,7 @@ describe('TaskDetailComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(component.taskForm.value.taskName).toBe(taskWithoutDueDate.name);
+    expect(component.taskForm.value.name).toBe(taskWithoutDueDate.name);
     expect(component.taskForm.value.dueDate).toBe('');
   });
 });
